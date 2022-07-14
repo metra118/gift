@@ -1,0 +1,16 @@
+{
+  "name": "@gift/builder",
+  "private": true,
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "builder": "./bin/builder.js"
+  },
+  "files": [
+    "bin"
+  ],
+  "dependencies": {
+    "esbuild": "^0.14.49"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "@gift/contracts",
+  "private": true,
+  "types": "dist/main.d.ts",
+  "main": "dist/main.js",
+  "version": "1.0.0",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "start:build": "tsc --build",
+    "start:dev": "tsc --watch",
+    "lint:eslint": "eslint ./src",
+    "lint:ts": "tsc --noEmit",
+    "lint:eslint:fix": "eslint --fix ./src",
+    "lint:prettier": "prettier --check ./src",
+    "lint:prettier:fix": "prettier --write ./src"
+  },
+  "dependencies": {
+    "@gift/eslint-config": "*",
+    "@gift/tsconfig": "*"
+  }
+}

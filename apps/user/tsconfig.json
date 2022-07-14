@@ -1,0 +1,7 @@
+{
+  "extends": "@gift/tsconfig/share/base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "baseUrl": "./src"
+  }
+}

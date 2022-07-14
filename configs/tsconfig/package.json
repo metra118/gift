@@ -1,0 +1,11 @@
+{
+  "name": "@gift/tsconfig",
+  "private": true,
+  "version": "1.0.0",
+  "files": [
+    "share"
+  ],
+  "dependencies": {
+    "typescript": "^4.7.4"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "gift",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "libs/*",
+    "configs/*"
+  ],
+  "scripts": {
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "husky": "^8.0.1"
+  }
+}
