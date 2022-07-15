@@ -1,14 +1,16 @@
-import { Controller, Get } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
+import { Body, Controller, Get, Param } from '@nestjs/common'
+import { RMQRoute, RMQValidate } from 'nestjs-rmq'
+import {
+  UserGetUserRequest,
+  UserGetUserResponse,
+  UserGetUserTopic,
+} from '@gift/contracts'
 
-@Controller('health')
+@Controller()
 export class UserController {
-  constructor(private readonly configService: ConfigService) {}
-
-  @Get()
-  health() {
-    throw new Error('test')
-    console.log(this.configService.get('TEST'))
-    return 'ok'
+  @RMQValidate()
+  @RMQRoute(UserGetUserTopic)
+  getUser(@Body() t: UserGetUserRequest): UserGetUserResponse {
+    return { name: 'test' }
   }
 }

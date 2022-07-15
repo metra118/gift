@@ -1,10 +1,10 @@
 {
-  "name": "@gift/user",
+  "name": "@gift/init",
   "private": true,
   "scripts": {
     "start:prod": "NODE_OPTIONS='--enable-source-maps' node ./dist/main.js",
     "start:build": "tsc --build",
-    "start:dev": "tsnd --respawn  ./src/main.ts",
+    "start:dev": "tsnd --respawn --transpile-only ./src/main.ts",
     "lint:eslint": "eslint ./src",
     "lint:ts": "tsc --noEmit",
     "lint:eslint:fix": "eslint --fix ./src",
@@ -15,7 +15,6 @@
     "@nestjs/common": "^9.0.1",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.1",
-    "@nestjs/platform-fastify": "^9.0.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "nestjs-rmq": "^2.7.2",
@@ -24,7 +23,6 @@
   },
   "devDependencies": {
     "@gift/eslint-config": "*",
-    "@gift/tsconfig": "*",
-    "@types/node": "^18.0.3"
+    "@gift/tsconfig": "*"
   }
 }
