@@ -1,16 +1,16 @@
-import { Body, Controller, Get, Param } from '@nestjs/common'
+import { Controller } from '@nestjs/common'
 import { RMQRoute, RMQValidate } from 'nestjs-rmq'
 import {
   UserGetUserRequest,
   UserGetUserResponse,
-  UserGetUserTopic,
+  userGetUserTopic,
 } from '@gift/contracts'
 
 @Controller()
 export class UserController {
   @RMQValidate()
-  @RMQRoute(UserGetUserTopic)
-  getUser(@Body() t: UserGetUserRequest): UserGetUserResponse {
+  @RMQRoute(userGetUserTopic)
+  getUser(data: UserGetUserRequest): UserGetUserResponse {
     return { name: 'test' }
   }
 }

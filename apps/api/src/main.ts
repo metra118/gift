@@ -12,6 +12,9 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter(),
   )
+  app.enableCors({
+    origin: ['https://hoppscotch.io'],
+  })
   await app.listen(PORT, '0.0.0.0')
 }
 

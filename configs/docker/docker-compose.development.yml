@@ -21,14 +21,3 @@ services:
       - ${DOCKER_VOLUMES}/postgres-gift-db:/data/postgres
     ports:
       - "5432:5432"
-
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: guest@guest.com
-      PGADMIN_DEFAULT_PASSWORD: guest
-    volumes:
-      - ${DOCKER_VOLUMES}/pgadmin:/var/lib/pgadmin
-    ports:
-      - "5050:80"

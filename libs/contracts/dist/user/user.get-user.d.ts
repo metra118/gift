@@ -1,4 +1,4 @@
-export declare const UserGetUserTopic = "user.get-user.query";
+export declare const userGetUserTopic = "user.get-user.query";
 export declare class UserGetUserRequest {
     userId: number;
 }

@@ -1,6 +1,6 @@
 import { IsNumber } from 'class-validator'
 
-export const UserGetUserTopic = 'user.get-user.query'
+export const userGetUserTopic = 'user.get-user.query'
 
 export class UserGetUserRequest {
   @IsNumber()
