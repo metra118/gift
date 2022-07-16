@@ -12,6 +12,7 @@
     "lint:prettier:fix": "prettier --write ./src"
   },
   "dependencies": {
+    "@fastify/cookie": "^7.2.0",
     "@nestjs/common": "^9.0.1",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.1",

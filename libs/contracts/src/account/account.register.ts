@@ -1,8 +1,8 @@
 import { IsEmail, IsString, Min } from 'class-validator'
 
-export const userRegisterTopic = 'user.get-user.command'
+export const accountRegisterTopic = 'account.register.command'
 
-export class UserRegisterRequest {
+export class AccountRegisterRequest {
   @IsEmail()
   email: string
 
@@ -11,7 +11,7 @@ export class UserRegisterRequest {
   password: string
 }
 
-export class UserRegisterResponse {
+export class AccountRegisterResponse {
   accessToken: string
   refreshToken: string
 }

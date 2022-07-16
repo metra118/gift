@@ -1,16 +1,16 @@
 import { Controller } from '@nestjs/common'
 import { RMQRoute, RMQValidate } from 'nestjs-rmq'
 import {
-  UserRegisterRequest,
-  UserRegisterResponse,
-  userRegisterTopic,
+  AccountRegisterRequest,
+  AccountRegisterResponse,
+  accountRegisterTopic,
 } from '@gift/contracts'
 
 @Controller()
 export class AuthController {
   @RMQValidate()
-  @RMQRoute(userRegisterTopic)
-  getUser(data: UserRegisterRequest): UserRegisterResponse {
+  @RMQRoute(accountRegisterTopic)
+  getUser(data: AccountRegisterRequest): AccountRegisterResponse {
     return { accessToken: 'awd', refreshToken: '23' }
   }
 }

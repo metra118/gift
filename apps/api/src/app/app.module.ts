@@ -3,12 +3,13 @@ import { ConfigModule } from '@nestjs/config'
 import { RMQModule } from 'nestjs-rmq'
 import { getRMQConfig } from './configs/rmq.config'
 import { UserController } from './controllers/user.controller'
+import { AuthController } from './controllers/auth.controller'
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     RMQModule.forRootAsync(getRMQConfig()),
   ],
-  controllers: [UserController],
+  controllers: [UserController, AuthController],
 })
 export class AppModule {}

@@ -9,26 +9,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserRegisterResponse = exports.UserRegisterRequest = exports.userRegisterTopic = void 0;
+exports.UserLoginResponse = exports.UserLoginRequest = exports.userLoginTopic = void 0;
 const class_validator_1 = require("class-validator");
-exports.userRegisterTopic = 'user.register.command';
-class UserRegisterRequest {
+exports.userLoginTopic = 'user.login.command';
+class UserLoginRequest {
     email;
     password;
 }
 __decorate([
     (0, class_validator_1.IsEmail)(),
     __metadata("design:type", String)
-], UserRegisterRequest.prototype, "email", void 0);
+], UserLoginRequest.prototype, "email", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.Min)(8),
     __metadata("design:type", String)
-], UserRegisterRequest.prototype, "password", void 0);
-exports.UserRegisterRequest = UserRegisterRequest;
-class UserRegisterResponse {
+], UserLoginRequest.prototype, "password", void 0);
+exports.UserLoginRequest = UserLoginRequest;
+class UserLoginResponse {
     accessToken;
     refreshToken;
 }
-exports.UserRegisterResponse = UserRegisterResponse;
-//# sourceMappingURL=user.register.js.map
+exports.UserLoginResponse = UserLoginResponse;
+//# sourceMappingURL=user.login.js.map

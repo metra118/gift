@@ -4,6 +4,7 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify'
 import { AppModule } from './app/app.module'
+import cookie from '@fastify/cookie'
 
 const PORT = process.env.PORT || 3333
 
@@ -12,10 +13,12 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter(),
   )
+  await app.register(cookie)
   app.enableCors({
-    origin: ['https://hoppscotch.io'],
+    origin: ['https://hoppscotch.io']
   })
   await app.listen(PORT, '0.0.0.0')
+  console.log('api was started')
 }
 
 bootstrap()
