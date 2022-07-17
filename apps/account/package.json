@@ -17,8 +17,10 @@
     "@nestjs/core": "^9.0.1",
     "@nestjs/jwt": "^9.0.0",
     "@prisma/client": "^4.0.0",
+    "@types/lodash": "^4.14.182",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
+    "lodash": "^4.17.21",
     "nestjs-rmq": "^2.8.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5"

@@ -7,13 +7,41 @@ import { UserRepository } from '../user/user.repository'
 import { JwtService } from '@nestjs/jwt'
 import { UserEntity } from '../user/user.entity'
 import { Password } from '../../utils/Password.util'
+import { PrismaService } from '../prisma/prisma.service'
+import { ISession } from '@gift/interfaces'
+import { Session } from '@prisma/client'
+import { SessionDto } from './session.dto'
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly jwtService: JwtService,
+    private readonly prismaService: PrismaService,
   ) {}
+
+  // todo mb move to tokenService
+  generateTokens(payload: Omit<UserEntity, 'passwordHash'>) {
+    const accessToken = this.jwtService.sign(payload, {
+      expiresIn: process.env.JWT_REFRESH_EXPIRES_IN,
+      secret: process.env.JWT_ACCESS_SECRET,
+    })
+    const refreshToken = this.jwtService.sign(payload, {
+      expiresIn: process.env.JWT_ACCESS_EXPIRE_IN,
+      secret: process.env.JWT_REFRESH_SECRET,
+    })
+
+    return {
+      accessToken,
+      refreshToken,
+    }
+  }
+
+  async saveSession(sessionData: SessionDto): Promise<Session> {
+    return this.prismaService.session.create({
+      data: sessionData,
+    })
+  }
 
   async register(
     data: AccountRegisterRequest,
@@ -26,14 +54,15 @@ export class AuthService {
       ...data,
       passwordHash: await Password.toHash(data.password),
     })
-    console.log(newUserEntity)
-    // выписать токены
-    // создать пользователя
-    // создать сессию
-    // вернуть токены
+    const newUser = await this.userRepository.createUser(newUserEntity)
+    // todo mail service here
+    const tokens = this.generateTokens({
+      ...newUserEntity.getUserWithoutPassword(),
+    })
+    await this.saveSession(new SessionDto({ ...tokens, ...newUser }))
     return {
-      accessToken: 'accessToken',
-      refreshToken: 'refreshToken',
+      accessToken: tokens.accessToken,
+      refreshToken: tokens.refreshToken,
     }
   }
 }

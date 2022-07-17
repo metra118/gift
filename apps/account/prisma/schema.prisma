@@ -10,7 +10,7 @@ datasource db {
 model Session {
   sessionId    String   @id @default(uuid()) @map("session_id") @db.VarChar(36)
   accessToken  String   @map("access_token") @db.VarChar(4096)
-  refreshToken String   @map("refresh_token") @db.VarChar(4096)
+  refreshToken String   @unique @map("refresh_token") @db.VarChar(4096)
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
   User         User     @relation(fields: [userId], references: [userId])

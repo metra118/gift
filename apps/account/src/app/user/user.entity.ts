@@ -1,13 +1,20 @@
-import { IUser, Optional } from '@gift/interfaces'
+import { cloneDeep } from 'lodash'
+import { IUser, PartialBy } from '@gift/interfaces'
 
 export class UserEntity implements IUser {
-  userId: string
+  userId?: string
   email: string
   passwordHash: string
 
-  constructor(user: Optional<IUser, 'userId'>) {
-    if (user.userId) this.userId = user.userId
+  constructor(user: IUser) {
+    this.userId = user.userId
     this.email = user.email
     this.passwordHash = user.passwordHash
+  }
+
+  getUserWithoutPassword(): Omit<UserEntity, 'passwordHash'> {
+    const copiedUser = cloneDeep(this) as PartialBy<UserEntity, 'passwordHash'>
+    delete copiedUser.passwordHash
+    return copiedUser
   }
 }

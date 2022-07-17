@@ -1,6 +1,6 @@
 export interface ISession {
-  sessionId: string
-  accessToken: string
-  refreshToken: string
-  userId: string
+    sessionId: string;
+    accessToken: string;
+    refreshToken: string;
+    userId: string;
 }

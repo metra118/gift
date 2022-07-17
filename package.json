@@ -7,7 +7,8 @@
     "configs/*"
   ],
   "scripts": {
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "docker": "docker-compose -f ./configs/docker/docker-compose.development.yml up -d"
   },
   "devDependencies": {
     "husky": "^8.0.1"
