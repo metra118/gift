@@ -4,4 +4,3 @@ export class AuthLogoutCookieDto {
   @IsString()
   refreshToken: string
 }
-

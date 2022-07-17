@@ -5,7 +5,7 @@ services:
     container_name: rmq
     image: rabbitmq:3-management
     #volumes:
-      #- ${DOCKER_VOLUMES}/gift-rmq:/
+    #- ${DOCKER_VOLUMES}/gift-rmq:/
     ports:
       - '15672:15672'
       - '5672:5672'
@@ -20,4 +20,4 @@ services:
     volumes:
       - ${DOCKER_VOLUMES}/gift-postgres:/data/postgres
     ports:
-      - "5432:5432"
+      - '5432:5432'

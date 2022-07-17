@@ -32,7 +32,7 @@ export class AuthController {
   @Post('/register')
   async register(
     @Body(ValidationPipe) body: AccountRegisterRequest,
-    @Res() reply: FastifyReply,
+    @Res({ passthrough: true }) reply: FastifyReply,
   ): Promise<AccountRegisterResponse | undefined> {
     try {
       const res = await this.rmqService.send<

@@ -15,7 +15,7 @@ async function bootstrap() {
   )
   await app.register(cookie)
   app.enableCors({
-    origin: ['https://hoppscotch.io']
+    origin: ['https://hoppscotch.io'],
   })
   await app.listen(PORT, '0.0.0.0')
   console.log('api was started')

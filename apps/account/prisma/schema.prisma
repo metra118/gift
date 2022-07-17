@@ -1,14 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
+model Session {
+  sessionId    String   @id @default(uuid()) @map("session_id") @db.VarChar(36)
+  accessToken  String   @map("access_token") @db.VarChar(4096)
+  refreshToken String   @map("refresh_token") @db.VarChar(4096)
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+  User         User     @relation(fields: [userId], references: [userId])
+  userId       String   @map("user_id") @db.VarChar(36)
+
+  @@map("sessions")
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  name  String?
-  email String  @unique
+  userId       String    @id @default(uuid()) @map("user_id") @db.VarChar(36)
+  email        String    @unique @db.VarChar(320)
+  passwordHash String    @map("password_hash") @db.VarChar(4096)
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  Session      Session[]
+
+  @@map("users")
 }

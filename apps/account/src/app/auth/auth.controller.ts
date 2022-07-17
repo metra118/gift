@@ -5,12 +5,15 @@ import {
   AccountRegisterResponse,
   accountRegisterTopic,
 } from '@gift/contracts'
+import { AuthService } from './auth.service'
 
 @Controller()
 export class AuthController {
+  constructor(private readonly authService: AuthService) {}
+
   @RMQValidate()
   @RMQRoute(accountRegisterTopic)
-  getUser(data: AccountRegisterRequest): AccountRegisterResponse {
-    return { accessToken: 'awd', refreshToken: '23' }
+  register(data: AccountRegisterRequest): Promise<AccountRegisterResponse> {
+    return this.authService.register(data)
   }
 }
