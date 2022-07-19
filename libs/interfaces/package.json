@@ -3,13 +3,11 @@
   "private": true,
   "types": "dist/main.d.ts",
   "main": "dist/main.js",
+  "module": "./dist/main.mjs",
   "version": "1.0.0",
-  "files": [
-    "dist"
-  ],
   "scripts": {
-    "start:build": "tsc --build",
-    "start:dev": "tsc --watch",
+    "start:build": "tsup src/main.ts --target esnext --format esm,cjs --dts",
+    "start:dev": "tsup src/main.ts --target esnext --format esm,cjs --watch --dts",
     "lint:eslint": "eslint ./src",
     "lint:ts": "tsc --noEmit",
     "lint:eslint:fix": "eslint --fix ./src",
@@ -18,6 +16,7 @@
   },
   "dependencies": {
     "@gift/eslint-config": "*",
-    "@gift/tsconfig": "*"
+    "@gift/tsconfig": "*",
+    "@gift/builder": "*"
   }
 }

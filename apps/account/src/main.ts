@@ -4,7 +4,7 @@ import { AppModule } from './app/app.module'
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
   await app.init()
-  console.log('user was started')
+  console.log('account was started')
 }
 
 bootstrap()

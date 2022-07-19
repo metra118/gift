@@ -5,7 +5,7 @@ const OUT_DIR = 'dist'
 
 const isWatch = process.argv.includes('--watch')
 
-await rm(OUT_DIR, { recursive: true })
+await rm(OUT_DIR, { recursive: true, force: true })
 
 await esbuild.build({
   entryPoints: ['src/main.ts'],
