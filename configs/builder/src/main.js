@@ -19,7 +19,7 @@ await esbuild.build({
     '@nestjs/microservices',
     'cache-manager',
     '@nestjs/websockets/socket-module',
-    'point-of-view',
     '@fastify/static',
+    '@fastify/view'
   ],
 })

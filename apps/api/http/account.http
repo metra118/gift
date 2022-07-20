@@ -1,7 +1,25 @@
+### register
 POST {{host}}/auth/register
 Content-Type: application/json
 
 {
   "email": "test@mail.ru",
-  "password": "awdawdawdawdawd awdawd awd"
+  "password": "awdawdawdawdawd_awdawd_awd"
 }
+
+### login
+POST {{host}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@mail.ru",
+  "password": "awdawdawdawdawd_awdawd_awd"
+}
+
+### logout
+POST {{host}}/auth/logout
+Cookie: refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwNjE3NTVmMy0wYjBmLTQwYzAtYjMzNS1lNGU2ZjZhYWE2MjkiLCJlbWFpbCI6InRlc3RAbWFpbC5ydSIsImlhdCI6MTY1ODMyNDI5OSwiZXhwIjoxNjU4MzI1MTk5fQ.Sg3D8e_NvqG9Sr56ZXa7ETfvXUiSjopDfABg7sqsJsU
+
+### refresh
+POST {{host}}/auth/refresh
+Cookie: refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAbWFpbC5ydSIsImlhdCI6MTY1ODMyODEwNywiZXhwIjoxNjU4MzMwNjk5fQ.oWL8ZFTFU2ISZZVH05Jk7MsQ9R1OLxTJsidetv4z9QA

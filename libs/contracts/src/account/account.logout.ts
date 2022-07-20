@@ -1,8 +1,12 @@
-import { IsString } from 'class-validator'
+import { IsDefined } from 'class-validator'
 
 export const accountLogoutTopic = 'account.logout.command'
 
 export class AccountLogoutRequest {
-  @IsString()
+  @IsDefined()
   refreshToken: string
+}
+
+export class AccountLogoutResponse {
+  ok: boolean
 }

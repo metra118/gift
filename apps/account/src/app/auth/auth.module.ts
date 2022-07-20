@@ -5,10 +5,11 @@ import { UserModule } from '../user/user.module'
 import { JwtModule } from '@nestjs/jwt'
 import { getJWTConfig } from '../configs/jwt.config'
 import { PrismaModule } from '../prisma/prisma.module'
+import { PasswordService } from './password.service'
 
 @Module({
   imports: [UserModule, PrismaModule, JwtModule.registerAsync(getJWTConfig())],
-  providers: [AuthService],
+  providers: [AuthService, PasswordService],
   controllers: [AuthController],
 })
 export class AuthModule {}
