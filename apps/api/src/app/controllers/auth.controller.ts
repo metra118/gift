@@ -1,36 +1,43 @@
 import {
   Body,
   Controller,
+  HttpException,
   Post,
   Res,
   UnauthorizedException,
   UseGuards,
   ValidationPipe,
 } from '@nestjs/common'
-import { RMQService } from 'nestjs-rmq'
+import { AmqpConnection } from '@golevelup/nestjs-rabbitmq'
+import ms from 'ms'
 import { FastifyReply } from 'fastify'
 import {
   AccountLoginRequest,
   AccountLoginResponse,
-  accountLoginTopic,
+  accountLoginKey,
   AccountLogoutRequest,
   AccountLogoutResponse,
-  accountLogoutTopic,
+  accountLogoutKey,
   AccountRefreshRequest,
   AccountRefreshResponse,
+  accountRefreshKey,
   AccountRegisterRequest,
   AccountRegisterResponse,
-  accountRegisterTopic,
+  accountRegisterKey,
 } from '@gift/contracts'
-import { Cookies } from '../decorator/cookie'
-import { AuthLogoutCookieDto } from '../dtos/auth.logout-cookie.dto'
+import { isError } from '@gift/common'
+import { GetCookies } from '../decorator/get-cookies.decorator'
 import { ConfigService } from '@nestjs/config'
 import { JwtRefreshGuard } from '../guards/jwt-refresh.guard'
+import { GetUser } from '../decorator/get-user.decorator'
+import { IUserInToken } from '@gift/interfaces'
+import { validate } from 'class-validator'
+import { plainToClass } from 'class-transformer'
 
 @Controller('/auth')
 export class AuthController {
   constructor(
-    private readonly rmqService: RMQService,
+    private readonly amqpConnection: AmqpConnection,
     private readonly configService: ConfigService,
   ) {}
 
@@ -38,26 +45,30 @@ export class AuthController {
   async register(
     @Body(ValidationPipe) body: AccountRegisterRequest,
     @Res({ passthrough: true }) reply: FastifyReply,
-  ): Promise<AccountRegisterResponse | unknown> {
+  ): Promise<AccountRegisterResponse | undefined> {
     try {
-      const res = await this.rmqService.send<
-        AccountRegisterRequest,
-        AccountRegisterResponse
-      >(accountRegisterTopic, body)
-      reply.setCookie(
-        this.configService.getOrThrow('REFRESH_TOKEN_COOKIE_NAME'),
-        res.refreshToken,
-        {
-          httpOnly: true,
-          maxAge: Number(
-            this.configService.getOrThrow('REFRESH_TOKEN_COOKIE_MAX_AGE'),
-          ),
-        },
-      )
+      const res = await this.amqpConnection.request<AccountRegisterResponse>({
+        exchange: this.configService.getOrThrow('AMQP_EXCHANGE'),
+        routingKey: accountRegisterKey,
+        payload: body,
+      })
+
+      if (isError(res)) {
+        throw new HttpException(res.error.message, res.error.statusCode)
+      }
+
+      reply.setCookie('refreshToken', res.data.refreshToken, {
+        httpOnly: true,
+        maxAge: ms(
+          this.configService.getOrThrow<string>('JWT_REFRESH_EXPIRES_IN'),
+        ),
+      })
       return res
     } catch (e) {
       console.error(e)
-      if (e instanceof Error) {
+      if (e instanceof HttpException) {
+        throw e
+      } else if (e instanceof Error) {
         throw new UnauthorizedException(e.message)
       }
     }
@@ -67,26 +78,30 @@ export class AuthController {
   async login(
     @Body(ValidationPipe) body: AccountLoginRequest,
     @Res({ passthrough: true }) reply: FastifyReply,
-  ): Promise<AccountLoginResponse | unknown> {
+  ): Promise<AccountLoginResponse | undefined> {
     try {
-      const res = await this.rmqService.send<
-        AccountLoginRequest,
-        AccountLoginResponse
-      >(accountLoginTopic, body)
-      reply.setCookie(
-        this.configService.getOrThrow('REFRESH_TOKEN_COOKIE_NAME'),
-        res.refreshToken,
-        {
-          httpOnly: true,
-          maxAge: Number(
-            this.configService.getOrThrow('REFRESH_TOKEN_COOKIE_MAX_AGE'),
-          ),
-        },
-      )
+      const res = await this.amqpConnection.request<AccountLoginResponse>({
+        exchange: this.configService.getOrThrow('AMQP_EXCHANGE'),
+        routingKey: accountLoginKey,
+        payload: body,
+      })
+
+      if (isError(res)) {
+        throw new HttpException(res.error.message, res.error.statusCode)
+      }
+
+      reply.setCookie('refreshToken', res.data.refreshToken, {
+        httpOnly: true,
+        maxAge: ms(
+          this.configService.getOrThrow<string>('JWT_REFRESH_EXPIRES_IN'),
+        ),
+      })
       return res
     } catch (e) {
       console.error(e)
-      if (e instanceof Error) {
+      if (e instanceof HttpException) {
+        throw e
+      } else if (e instanceof Error) {
         throw new UnauthorizedException(e.message)
       }
     }
@@ -94,18 +109,22 @@ export class AuthController {
 
   @Post('/logout')
   async logout(
-    @Cookies(new ValidationPipe({ validateCustomDecorators: true }))
-    cookie: AuthLogoutCookieDto,
+    @GetCookies(new ValidationPipe({ validateCustomDecorators: true }))
+    cookie: AccountLogoutRequest,
     @Res({ passthrough: true }) reply: FastifyReply,
-  ): Promise<AccountLogoutResponse | unknown> {
+  ): Promise<AccountLogoutResponse | undefined> {
     try {
-      const res = await this.rmqService.send<
-        AccountLogoutRequest,
-        AccountLogoutResponse
-      >(accountLogoutTopic, cookie)
-      reply.clearCookie(
-        this.configService.getOrThrow('REFRESH_TOKEN_COOKIE_NAME'),
-      )
+      const res = await this.amqpConnection.request<AccountLogoutResponse>({
+        exchange: this.configService.getOrThrow('AMQP_EXCHANGE'),
+        routingKey: accountLogoutKey,
+        payload: cookie,
+      })
+
+      // if (isError(res)) {
+      //   throw new HttpException(res.error.message, res.error.statusCode)
+      // }
+
+      reply.clearCookie('refreshToken')
       return res
     } catch (e) {
       console.error(e)
@@ -115,27 +134,43 @@ export class AuthController {
   @UseGuards(JwtRefreshGuard)
   @Post('/refresh')
   async refresh(
-    @Cookies(new ValidationPipe({ validateCustomDecorators: true }))
-    body: AccountRefreshRequest,
+    @GetUser() user: IUserInToken,
+    @GetCookies('refreshToken') refreshToken: string,
     @Res({ passthrough: true }) reply: FastifyReply,
-  ): Promise<AccountRefreshResponse | unknown> {
+  ): Promise<AccountRefreshResponse | undefined> {
     try {
-      // const res = await this.rmqService.send<
-      //   AccountRefreshRequest,
-      //   AccountRefreshResponse
-      // >(accountRefreshTopic, body)
-      // reply.setCookie(
-      //   this.configService.getOrThrow('REFRESH_TOKEN_COOKIE_NAME'),
-      //   res.refreshToken,
-      //   {
-      //     httpOnly: true,
-      //     maxAge: this.configService.getOrThrow('REFRESH_TOKEN_COOKIE_MAX_AGE'),
-      //   },
+      const payload = {
+        refreshToken,
+        user,
+      }
+      // validate(plainToClass(AccountRefreshRequest, payload)).then(
+      //   (d) => console.dir(d, { depth: null }),
+      //   console.log,
       // )
-      // return res
-      return { awd: 232 }
+      const res = await this.amqpConnection.request<AccountRefreshResponse>({
+        exchange: this.configService.getOrThrow('AMQP_EXCHANGE'),
+        routingKey: accountRefreshKey,
+        payload,
+      })
+
+      if (isError(res)) {
+        throw new HttpException(res.error.message, res.error.statusCode)
+      }
+
+      reply.setCookie('refreshToken', res.data.refreshToken, {
+        httpOnly: true,
+        maxAge: ms(
+          this.configService.getOrThrow<string>('JWT_REFRESH_EXPIRES_IN'),
+        ),
+      })
+      return res
     } catch (e) {
       console.error(e)
+      if (e instanceof HttpException) {
+        throw e
+      } else if (e instanceof Error) {
+        throw new UnauthorizedException(e.message)
+      }
     }
   }
 }

@@ -1,20 +1,36 @@
 import { ConfigModule, ConfigService } from '@nestjs/config'
-import { IRMQServiceAsyncOptions } from 'nestjs-rmq'
+import { MessageHandlerErrorBehavior } from '@golevelup/nestjs-rabbitmq'
 
-export const getRMQConfig = (): IRMQServiceAsyncOptions => ({
+export const getRMQConfig = () => ({
   inject: [ConfigService],
   imports: [ConfigModule],
-  useFactory: (configService: ConfigService) => ({
-    exchangeName: configService.getOrThrow('AMQP_EXCHANGE'),
-    connections: [
-      {
-        login: configService.getOrThrow('AMQP_USER'),
-        password: configService.getOrThrow('AMQP_PASSWORD'),
-        host: configService.getOrThrow('AMQP_HOSTNAME'),
-      },
-    ],
-    prefetchCount: 32,
-    serviceName: configService.getOrThrow('SERVICE_NAME'),
-    queueName: configService.getOrThrow('AMQP_QUEUE'),
-  }),
+  useFactory: (configService: ConfigService) => {
+    const uri = getRMQUri(configService)
+    return {
+      name: configService.getOrThrow('SERVICE_NAME'),
+      exchanges: [
+        {
+          name: configService.getOrThrow('AMQP_EXCHANGE'),
+          type: 'topic',
+        },
+      ],
+      uri,
+      defaultRpcErrorBehavior: MessageHandlerErrorBehavior.ACK,
+      defaultSubscribeErrorBehavior: MessageHandlerErrorBehavior.ACK,
+      enableControllerDiscovery: true,
+    }
+  },
 })
+
+const getRMQUri = (configService: ConfigService): string => {
+  return [
+    'amqp://',
+    configService.getOrThrow('AMQP_USER'),
+    ':',
+    configService.getOrThrow('AMQP_PASSWORD'),
+    '@',
+    configService.getOrThrow('AMQP_HOSTNAME'),
+    ':',
+    configService.getOrThrow('AMQP_PORT'),
+  ].join('')
+}

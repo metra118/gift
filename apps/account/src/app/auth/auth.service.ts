@@ -1,78 +1,63 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common'
 import {
   AccountLoginRequest,
   AccountLoginResponse,
   AccountLogoutRequest,
   AccountLogoutResponse,
   AccountRefreshRequest,
+  AccountRefreshResponse,
   AccountRegisterRequest,
   AccountRegisterResponse,
 } from '@gift/contracts'
-import { JwtService } from '@nestjs/jwt'
-import { Session } from '@prisma/client'
 import { UserRepository } from '../user/user.repository'
 import { UserEntity } from '../user/user.entity'
 import { PasswordService } from './password.service'
-import { PrismaService } from '../prisma/prisma.service'
 import { SessionDto } from './session.dto'
-import { ConfigService } from '@nestjs/config'
+import { TokenService } from './token.service'
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userRepository: UserRepository,
-    private readonly jwtService: JwtService,
-    private readonly prismaService: PrismaService,
     private readonly passwordService: PasswordService,
-    private readonly configService: ConfigService,
+    private readonly tokenService: TokenService,
   ) {}
 
-  // todo mb move to tokenService
-  private async generateTokens(payload: Omit<UserEntity, 'passwordHash'>) {
-    const accessToken = await this.jwtService.signAsync(payload, {
-      expiresIn: this.configService.getOrThrow('ACCESS_TOKEN_COOKIE_MAX_AGE'),
-      secret: this.configService.getOrThrow('JWT_ACCESS_SECRET'),
-    })
-    const refreshToken = await this.jwtService.signAsync(payload, {
-      expiresIn: this.configService.getOrThrow('REFRESH_TOKEN_COOKIE_MAX_AGE'),
-      secret: this.configService.getOrThrow('JWT_REFRESH_SECRET'),
-    })
-
-    return {
-      accessToken,
-      refreshToken,
+  async refresh(data: AccountRefreshRequest): Promise<AccountRefreshResponse> {
+    const tokenFromDb = await this.tokenService.findRefreshToken(
+      data.refreshToken,
+    )
+    if (!tokenFromDb) {
+      throw new UnauthorizedException()
     }
-  }
-
-  private async saveSession(sessionData: SessionDto): Promise<Session> {
-    return this.prismaService.session.create({
-      data: {
-        ...sessionData,
-        expiryDate: new Date(
-          Date.now() +
-            Number(
-              this.configService.getOrThrow('REFRESH_TOKEN_COOKIE_MAX_AGE'),
-            ) *
-              1000,
-        ),
-      },
+    const userCandidate = await this.userRepository.findUserById(
+      data.user.userId,
+    )
+    if (!userCandidate) {
+      throw new BadRequestException()
+    }
+    await this.tokenService.removeTokens(data.refreshToken)
+    const userEntity = new UserEntity(userCandidate)
+    const tokens = await this.tokenService.generateTokens({
+      ...userEntity.getUserForTokens(),
     })
-  }
-
-  async refresh(
-    data: AccountRefreshRequest,
-  ) /* : Promise<AccountRefreshResponse> */ {
-    console.log(data)
+    await this.tokenService.saveTokens(
+      new SessionDto({ ...tokens, ...userCandidate }),
+    )
+    return {
+      accessToken: tokens.accessToken,
+      refreshToken: tokens.refreshToken,
+    }
   }
 
   async logout(data: AccountLogoutRequest): Promise<AccountLogoutResponse> {
     let isOk = true
-    await this.prismaService.session
-      .delete({
-        where: {
-          refreshToken: data.refreshToken,
-        },
-      })
+    await this.tokenService
+      .removeTokens(data.refreshToken)
       .catch(() => (isOk = false))
 
     return { ok: isOk }
@@ -93,10 +78,12 @@ export class AuthService {
     }
     const userEntity = new UserEntity(userCandidate)
 
-    const tokens = await this.generateTokens({
-      ...userEntity.getUserWithoutPassword(),
+    const tokens = await this.tokenService.generateTokens({
+      ...userEntity.getUserForTokens(),
     })
-    await this.saveSession(new SessionDto({ ...tokens, ...userCandidate }))
+    await this.tokenService.saveTokens(
+      new SessionDto({ ...tokens, ...userCandidate }),
+    )
     return {
       accessToken: tokens.accessToken,
       refreshToken: tokens.refreshToken,
@@ -110,16 +97,19 @@ export class AuthService {
     if (userCandidate) {
       throw new BadRequestException('Такой пользователь уже зарегистрирован')
     }
-    const newUserEntity = new UserEntity({
+    const userEntity = new UserEntity({
       ...data,
-      passwordHash: await this.passwordService.toHash(data.password),
+      passwordHash: await this.passwordService.hash(data.password),
     })
-    const newUser = await this.userRepository.createUser(newUserEntity)
+    const newUser = await this.userRepository.createUser(userEntity)
+    userEntity.setUserId(newUser.userId)
     // todo mail service here
-    const tokens = await this.generateTokens({
-      ...newUserEntity.getUserWithoutPassword(),
+    const tokens = await this.tokenService.generateTokens({
+      ...userEntity.getUserForTokens(),
     })
-    await this.saveSession(new SessionDto({ ...tokens, ...newUser }))
+    await this.tokenService.saveTokens(
+      new SessionDto({ ...tokens, ...newUser }),
+    )
     return {
       accessToken: tokens.accessToken,
       refreshToken: tokens.refreshToken,

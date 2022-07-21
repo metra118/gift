@@ -1,6 +1,8 @@
 import { IsDefined, IsEmail, MaxLength, MinLength } from 'class-validator'
+import { ResponseSuccess } from '../common/response-success'
+import { ResponseError } from '../common/response-error'
 
-export const accountRegisterTopic = 'account.register.command'
+export const accountRegisterKey = 'account.register.command'
 
 export class AccountRegisterRequest {
   @IsEmail()
@@ -13,7 +15,13 @@ export class AccountRegisterRequest {
   password: string
 }
 
-export class AccountRegisterResponse {
-  accessToken: string
-  refreshToken: string
+class AccountRegisterResponseSuccess extends ResponseSuccess {
+  data: {
+    accessToken: string
+    refreshToken: string
+  }
 }
+
+export type AccountRegisterResponse =
+  | AccountRegisterResponseSuccess
+  | ResponseError

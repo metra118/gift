@@ -1,16 +1,20 @@
 interface ISession {
-  sessionId: string
-  accessToken: string
-  refreshToken: string
-  userId: string
+    sessionId: string;
+    accessToken: string;
+    refreshToken: string;
+    userId: string;
 }
 
 interface IUser {
-  userId?: string
-  email: string
-  passwordHash: string
+    userId?: string;
+    email: string;
+    passwordHash: string;
 }
 
-declare type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<T>
+interface IUserInToken {
+    userId: string;
+}
 
-export { ISession, IUser, PartialBy }
+declare type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<T>;
+
+export { ISession, IUser, IUserInToken, PartialBy };

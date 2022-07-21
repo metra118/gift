@@ -1,12 +1,20 @@
 import { IsDefined } from 'class-validator'
+import { ResponseError } from '../common/response-error'
+import { ResponseSuccess } from '../common/response-success'
 
-export const accountLogoutTopic = 'account.logout.command'
+export const accountLogoutKey = 'account.logout.command'
 
 export class AccountLogoutRequest {
   @IsDefined()
   refreshToken: string
 }
 
-export class AccountLogoutResponse {
-  ok: boolean
+class AccountLogoutResponseSuccess extends ResponseSuccess {
+  data: {
+    ok: boolean
+  }
 }
+
+export type AccountLogoutResponse =
+  | AccountLogoutResponseSuccess
+  | ResponseError

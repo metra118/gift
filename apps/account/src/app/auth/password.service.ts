@@ -10,7 +10,7 @@ export class PasswordService {
     this.scryptAsync = promisify(scrypt)
   }
 
-  async toHash(password: string): Promise<string> {
+  async hash(password: string): Promise<string> {
     const salt = randomBytes(16).toString('hex')
     const buf = (await this.scryptAsync(password, salt, 64)) as Buffer
     return `${buf.toString('hex')}.${salt}`

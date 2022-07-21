@@ -12,6 +12,7 @@
     "lint:prettier:fix": "prettier --write ./src"
   },
   "dependencies": {
+    "@golevelup/nestjs-rabbitmq": "^2.4.1",
     "@nestjs/common": "^9.0.1",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.1",
@@ -21,7 +22,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "lodash": "^4.17.21",
-    "nestjs-rmq": "^2.8.0",
+    "ms": "^2.1.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5"
   },
@@ -29,6 +30,8 @@
     "@gift/builder": "*",
     "@gift/eslint-config": "*",
     "@gift/tsconfig": "*",
+    "@types/amqplib": "^0.8.2",
+    "@types/ms": "^0.7.31",
     "prisma": "^4.0.0"
   }
 }

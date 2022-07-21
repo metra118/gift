@@ -1,5 +1,6 @@
 import { cloneDeep } from 'lodash'
-import { IUser, PartialBy } from '@gift/interfaces'
+import { IUser, IUserInToken, PartialBy } from '@gift/interfaces'
+import { UnauthorizedException } from '@nestjs/common'
 
 export class UserEntity implements IUser {
   userId?: string
@@ -12,9 +13,14 @@ export class UserEntity implements IUser {
     this.passwordHash = user.passwordHash
   }
 
-  getUserWithoutPassword(): Omit<UserEntity, 'passwordHash'> {
-    const copiedUser = cloneDeep(this) as PartialBy<UserEntity, 'passwordHash'>
-    delete copiedUser.passwordHash
-    return copiedUser
+  setUserId(userId: string) {
+    this.userId = userId
+  }
+
+  getUserForTokens(): IUserInToken {
+    if (!this.userId) throw new UnauthorizedException()
+    return {
+      userId: this.userId,
+    }
   }
 }

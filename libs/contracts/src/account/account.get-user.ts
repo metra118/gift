@@ -1,4 +1,6 @@
 import { IsNumber } from 'class-validator'
+import { ResponseError } from '../common/response-error'
+import { ResponseSuccess } from '../common/response-success'
 
 export const accountGetUserTopic = 'account.get-user.query'
 
@@ -7,6 +9,12 @@ export class AccountGetUserRequest {
   userId: number
 }
 
-export class AccountGetUserResponse {
-  name: string
+class AccountGetUserResponseSuccess extends ResponseSuccess {
+  data: {
+    name: string
+  }
 }
+
+export type AccountGetUserResponse =
+  | AccountGetUserResponseSuccess
+  | ResponseError

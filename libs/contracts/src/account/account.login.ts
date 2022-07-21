@@ -1,6 +1,8 @@
 import { IsEmail, IsString } from 'class-validator'
+import { ResponseError } from '../common/response-error'
+import { ResponseSuccess } from '../common/response-success'
 
-export const accountLoginTopic = 'account.login.command'
+export const accountLoginKey = 'account.login.command'
 
 export class AccountLoginRequest {
   @IsEmail()
@@ -10,7 +12,13 @@ export class AccountLoginRequest {
   password: string
 }
 
-export class AccountLoginResponse {
-  accessToken: string
-  refreshToken: string
+class AccountLoginResponseSuccess extends ResponseSuccess {
+  data: {
+    accessToken: string
+    refreshToken: string
+  }
 }
+
+export type AccountLoginResponse =
+  | AccountLoginResponseSuccess
+  | ResponseError

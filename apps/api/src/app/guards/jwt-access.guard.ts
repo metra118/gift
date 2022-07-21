@@ -20,7 +20,7 @@ export class JwtRefreshGuard implements CanActivate {
     let user
     try {
       user = await this.jwtService.verifyAsync(request.cookies?.refreshToken, {
-        secret: this.configService.getOrThrow('JWT_REFRESH_SECRET'),
+        secret: this.configService.getOrThrow('JWT_ACCESS_SECRET'),
       })
     } catch (e) {
       throw new UnauthorizedException()
