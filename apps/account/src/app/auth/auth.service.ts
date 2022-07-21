@@ -5,19 +5,17 @@ import {
 } from '@nestjs/common'
 import {
   AccountLoginRequest,
-  AccountLoginResponse,
+  AccountLogoutAllRequest,
   AccountLogoutRequest,
-  AccountLogoutResponse,
   AccountRefreshRequest,
-  AccountRefreshResponse,
   AccountRegisterRequest,
-  AccountRegisterResponse,
 } from '@gift/contracts'
 import { UserRepository } from '../user/user.repository'
 import { UserEntity } from '../user/user.entity'
 import { PasswordService } from './password.service'
 import { SessionDto } from './session.dto'
 import { TokenService } from './token.service'
+import { ILogout, ITokens } from '@gift/interfaces'
 
 @Injectable()
 export class AuthService {
@@ -27,7 +25,7 @@ export class AuthService {
     private readonly tokenService: TokenService,
   ) {}
 
-  async refresh(data: AccountRefreshRequest): Promise<AccountRefreshResponse> {
+  async refresh(data: AccountRefreshRequest): Promise<ITokens> {
     const tokenFromDb = await this.tokenService.findRefreshToken(
       data.refreshToken,
     )
@@ -54,16 +52,25 @@ export class AuthService {
     }
   }
 
-  async logout(data: AccountLogoutRequest): Promise<AccountLogoutResponse> {
+  async logout(data: AccountLogoutRequest): Promise<ILogout> {
     let isOk = true
     await this.tokenService
       .removeTokens(data.refreshToken)
       .catch(() => (isOk = false))
 
-    return { ok: isOk }
+    return { isOk }
   }
 
-  async login(data: AccountLoginRequest): Promise<AccountLoginResponse> {
+  async logoutAll(data: AccountLogoutAllRequest): Promise<ILogout> {
+    let isOk = true
+    await this.tokenService
+      .removeAllTokens(data.userId)
+      .catch(() => (isOk = false))
+
+    return { isOk }
+  }
+
+  async login(data: AccountLoginRequest): Promise<ITokens> {
     const userCandidate = await this.userRepository.findUserByEmail(data.email)
     if (!userCandidate) {
       throw new BadRequestException('Неверный логин или пароль')
@@ -90,9 +97,7 @@ export class AuthService {
     }
   }
 
-  async register(
-    data: AccountRegisterRequest,
-  ): Promise<AccountRegisterResponse> {
+  async register(data: AccountRegisterRequest): Promise<ITokens> {
     const userCandidate = await this.userRepository.findUserByEmail(data.email)
     if (userCandidate) {
       throw new BadRequestException('Такой пользователь уже зарегистрирован')

@@ -16,10 +16,17 @@ Content-Type: application/json
   "password": "awdawdawdawdawd_awdawd_awd"
 }
 
+### test
+GET {{host}}/auth/test
+
 ### logout
 POST {{host}}/auth/logout
 Cookie: refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmYTM2MzcyZi1mOTMxLTQ1MGItOTMxYy02ZWQyNDFhNTA5NDYiLCJpYXQiOjE2NTgzODc2MzUsImV4cCI6MTY2MDk3OTYzNX0.YOZsOGQrSjqUhK5tIp4X2d0mMIQ-o29atXmnpjAHV8A
 
+### logoutAll
+POST {{host}}/auth/logout/all
+Cookie: refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyZjBlMDkwNi0yZTIwLTQwNjUtODZiZC1iMzBiYWE3OGE5YTAiLCJpYXQiOjE2NTg0MzIzMjUsImV4cCI6MTY2MTAyNDMyNX0.lFK301aGyYPDtT_7R9-XYn9D8NXUIaJsvdN0A_fTRSw
+
 ### refresh
 POST {{host}}/auth/refresh
-Cookie: refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5ZDc3MTVjNS01NjUzLTQ3MzQtYjk2Yi0zYTRhYmFlYTQ3OTAiLCJpYXQiOjE2NTg0MDIzMDUsImV4cCI6MTY2MDk5NDMwNX0.nEYjTKvQEsd2jtzl08hMOv0OAbXc5-gRX6hjS-uMzto
+Cookie: refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1MnNlcklkIjoiMmYwZTA5MDYtMmUyMC00MDY1LTg2YmQtYjMwYmFhNzhhOWEwIiwiaWF0IjoxNjU4NDMzMDA1LCJleHAiOjE2NjEwMjUwMDV9.o46R71aVYjMQuwbWrgaifUP-HafT5rZZWsdRbNNr7y4

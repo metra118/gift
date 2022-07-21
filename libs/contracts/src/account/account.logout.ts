@@ -1,6 +1,7 @@
 import { IsDefined } from 'class-validator'
-import { ResponseError } from '../common/response-error'
-import { ResponseSuccess } from '../common/response-success'
+import { ResponseError } from '../common/response/response-error'
+import { ResponseSuccess } from '../common/response/response-success'
+import { ILogout } from '@gift/interfaces'
 
 export const accountLogoutKey = 'account.logout.command'
 
@@ -10,11 +11,7 @@ export class AccountLogoutRequest {
 }
 
 class AccountLogoutResponseSuccess extends ResponseSuccess {
-  data: {
-    ok: boolean
-  }
+  data: ILogout
 }
 
-export type AccountLogoutResponse =
-  | AccountLogoutResponseSuccess
-  | ResponseError
+export type AccountLogoutResponse = AccountLogoutResponseSuccess | ResponseError

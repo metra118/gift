@@ -17,7 +17,7 @@ export const getRMQConfig = () => ({
       uri,
       defaultRpcErrorBehavior: MessageHandlerErrorBehavior.ACK,
       defaultSubscribeErrorBehavior: MessageHandlerErrorBehavior.ACK,
-      enableControllerDiscovery: true,
+      connectionInitOptions: { wait: true, reject: true, timeout: 10000 },
     }
   },
 })

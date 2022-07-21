@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Get,
   HttpException,
+  HttpStatus,
   Post,
   Res,
   UnauthorizedException,
@@ -12,27 +14,26 @@ import { AmqpConnection } from '@golevelup/nestjs-rabbitmq'
 import ms from 'ms'
 import { FastifyReply } from 'fastify'
 import {
+  accountLoginKey,
   AccountLoginRequest,
   AccountLoginResponse,
-  accountLoginKey,
+  accountLogoutAllKey,
+  AccountLogoutAllResponse,
+  accountLogoutKey,
   AccountLogoutRequest,
   AccountLogoutResponse,
-  accountLogoutKey,
-  AccountRefreshRequest,
-  AccountRefreshResponse,
   accountRefreshKey,
+  AccountRefreshResponse,
+  accountRegisterKey,
   AccountRegisterRequest,
   AccountRegisterResponse,
-  accountRegisterKey,
 } from '@gift/contracts'
 import { isError } from '@gift/common'
 import { GetCookies } from '../decorator/get-cookies.decorator'
 import { ConfigService } from '@nestjs/config'
 import { JwtRefreshGuard } from '../guards/jwt-refresh.guard'
 import { GetUser } from '../decorator/get-user.decorator'
-import { IUserInToken } from '@gift/interfaces'
-import { validate } from 'class-validator'
-import { plainToClass } from 'class-transformer'
+import { ILogout, ITokens, IUserInToken } from '@gift/interfaces'
 
 @Controller('/auth')
 export class AuthController {
@@ -45,7 +46,7 @@ export class AuthController {
   async register(
     @Body(ValidationPipe) body: AccountRegisterRequest,
     @Res({ passthrough: true }) reply: FastifyReply,
-  ): Promise<AccountRegisterResponse | undefined> {
+  ): Promise<ITokens | undefined> {
     try {
       const res = await this.amqpConnection.request<AccountRegisterResponse>({
         exchange: this.configService.getOrThrow('AMQP_EXCHANGE'),
@@ -54,7 +55,7 @@ export class AuthController {
       })
 
       if (isError(res)) {
-        throw new HttpException(res.error.message, res.error.statusCode)
+        throw new HttpException(res.error, res.error.statusCode)
       }
 
       reply.setCookie('refreshToken', res.data.refreshToken, {
@@ -63,7 +64,7 @@ export class AuthController {
           this.configService.getOrThrow<string>('JWT_REFRESH_EXPIRES_IN'),
         ),
       })
-      return res
+      return res.data
     } catch (e) {
       console.error(e)
       if (e instanceof HttpException) {
@@ -78,7 +79,7 @@ export class AuthController {
   async login(
     @Body(ValidationPipe) body: AccountLoginRequest,
     @Res({ passthrough: true }) reply: FastifyReply,
-  ): Promise<AccountLoginResponse | undefined> {
+  ): Promise<ITokens | undefined> {
     try {
       const res = await this.amqpConnection.request<AccountLoginResponse>({
         exchange: this.configService.getOrThrow('AMQP_EXCHANGE'),
@@ -87,7 +88,7 @@ export class AuthController {
       })
 
       if (isError(res)) {
-        throw new HttpException(res.error.message, res.error.statusCode)
+        throw new HttpException(res.error, res.error.statusCode)
       }
 
       reply.setCookie('refreshToken', res.data.refreshToken, {
@@ -96,7 +97,7 @@ export class AuthController {
           this.configService.getOrThrow<string>('JWT_REFRESH_EXPIRES_IN'),
         ),
       })
-      return res
+      return res.data
     } catch (e) {
       console.error(e)
       if (e instanceof HttpException) {
@@ -112,7 +113,7 @@ export class AuthController {
     @GetCookies(new ValidationPipe({ validateCustomDecorators: true }))
     cookie: AccountLogoutRequest,
     @Res({ passthrough: true }) reply: FastifyReply,
-  ): Promise<AccountLogoutResponse | undefined> {
+  ): Promise<ILogout | undefined> {
     try {
       const res = await this.amqpConnection.request<AccountLogoutResponse>({
         exchange: this.configService.getOrThrow('AMQP_EXCHANGE'),
@@ -120,12 +121,40 @@ export class AuthController {
         payload: cookie,
       })
 
-      // if (isError(res)) {
-      //   throw new HttpException(res.error.message, res.error.statusCode)
-      // }
+      if (isError(res)) {
+        return {
+          isOk: false,
+        }
+      }
 
       reply.clearCookie('refreshToken')
-      return res
+      return res.data
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  @UseGuards(JwtRefreshGuard)
+  @Post('/logout/all')
+  async logoutAll(
+    @GetUser() user: IUserInToken,
+    @Res({ passthrough: true }) reply: FastifyReply,
+  ): Promise<ILogout | undefined> {
+    try {
+      const res = await this.amqpConnection.request<AccountLogoutAllResponse>({
+        exchange: this.configService.getOrThrow('AMQP_EXCHANGE'),
+        routingKey: accountLogoutAllKey,
+        payload: user,
+      })
+
+      if (isError(res)) {
+        return {
+          isOk: false,
+        }
+      }
+
+      reply.clearCookie('refreshToken')
+      return res.data
     } catch (e) {
       console.error(e)
     }
@@ -137,24 +166,19 @@ export class AuthController {
     @GetUser() user: IUserInToken,
     @GetCookies('refreshToken') refreshToken: string,
     @Res({ passthrough: true }) reply: FastifyReply,
-  ): Promise<AccountRefreshResponse | undefined> {
+  ): Promise<ITokens | undefined> {
     try {
-      const payload = {
-        refreshToken,
-        user,
-      }
-      // validate(plainToClass(AccountRefreshRequest, payload)).then(
-      //   (d) => console.dir(d, { depth: null }),
-      //   console.log,
-      // )
       const res = await this.amqpConnection.request<AccountRefreshResponse>({
         exchange: this.configService.getOrThrow('AMQP_EXCHANGE'),
         routingKey: accountRefreshKey,
-        payload,
+        payload: {
+          refreshToken,
+          user,
+        },
       })
 
       if (isError(res)) {
-        throw new HttpException(res.error.message, res.error.statusCode)
+        throw new HttpException(res.error, res.error.statusCode)
       }
 
       reply.setCookie('refreshToken', res.data.refreshToken, {
@@ -163,7 +187,7 @@ export class AuthController {
           this.configService.getOrThrow<string>('JWT_REFRESH_EXPIRES_IN'),
         ),
       })
-      return res
+      return res.data
     } catch (e) {
       console.error(e)
       if (e instanceof HttpException) {

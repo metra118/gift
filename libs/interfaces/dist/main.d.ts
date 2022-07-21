@@ -15,6 +15,15 @@ interface IUserInToken {
     userId: string;
 }
 
+interface ITokens {
+    accessToken: string;
+    refreshToken: string;
+}
+
+interface ILogout {
+    isOk: boolean;
+}
+
 declare type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<T>;
 
-export { ISession, IUser, IUserInToken, PartialBy };
+export { ILogout, ISession, ITokens, IUser, IUserInToken, PartialBy };

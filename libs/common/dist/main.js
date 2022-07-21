@@ -425,7 +425,8 @@ var require_isLength = __commonJS({
 // src/main.ts
 var main_exports = {};
 __export(main_exports, {
-  isError: () => isError
+  isError: () => isError,
+  replyErrorHandler: () => replyErrorHandler
 });
 module.exports = __toCommonJS(main_exports);
 
@@ -1141,11 +1142,11 @@ var __decorateClass = (decorators, target, key, kind) => {
     __defProp2(target, key, result);
   return result;
 };
-var ResponceStatuses = /* @__PURE__ */ ((ResponceStatuses2) => {
-  ResponceStatuses2["error"] = "error";
-  ResponceStatuses2["success"] = "success";
-  return ResponceStatuses2;
-})(ResponceStatuses || {});
+var ResponseStatuses = /* @__PURE__ */ ((ResponseStatuses2) => {
+  ResponseStatuses2["error"] = "error";
+  ResponseStatuses2["success"] = "success";
+  return ResponseStatuses2;
+})(ResponseStatuses || {});
 var AccountGetUserRequest = class {
   userId;
 };
@@ -1199,12 +1200,33 @@ __decorateClass([
   ValidateNested({ each: true }),
   Type(() => UserInToken)
 ], AccountRefreshRequest.prototype, "user", 2);
+var AccountLogoutAllRequest = class {
+  userId;
+};
+__decorateClass([
+  IsDefined()
+], AccountLogoutAllRequest.prototype, "userId", 2);
 
 // src/utils/is-error-responce.type-guard.ts
 var isError = (res) => {
-  return res.status === ResponceStatuses.error;
+  return res.status === ResponseStatuses.error;
 };
+
+// src/utils/reply-error-handler.ts
+function replyErrorHandler(channel, msg, error) {
+  const { replyTo, correlationId } = msg.properties;
+  if (replyTo) {
+    console.log(error);
+    const errorToResonce = Buffer.from(JSON.stringify({
+      status: "error",
+      error: error.getResponse()
+    }));
+    channel.publish("", replyTo, errorToResonce, { correlationId });
+    channel.ack(msg);
+  }
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  isError
+  isError,
+  replyErrorHandler
 });

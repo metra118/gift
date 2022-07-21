@@ -1,8 +1,8 @@
 import { IsDefined, IsString, ValidateNested } from 'class-validator'
-import { IUserInToken } from '@gift/interfaces'
+import { ITokens, IUserInToken } from '@gift/interfaces'
 import { Type } from 'class-transformer'
-import { ResponseError } from '../common/response-error'
-import { ResponseSuccess } from '../common/response-success'
+import { ResponseError } from '../common/response/response-error'
+import { ResponseSuccess } from '../common/response/response-success'
 
 export const accountRefreshKey = 'account.refresh.command'
 
@@ -22,10 +22,7 @@ export class AccountRefreshRequest {
 }
 
 class AccountRefreshResponseSuccess extends ResponseSuccess {
-  data: {
-    accessToken: string
-    refreshToken: string
-  }
+  data: ITokens
 }
 export type AccountRefreshResponse =
   | AccountRefreshResponseSuccess

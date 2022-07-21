@@ -13,14 +13,14 @@ var __decorateClass = (decorators, target, key, kind) => {
 // src/account/account.get-user.ts
 import { IsNumber } from "class-validator";
 
-// src/common/responce-statuses.ts
-var ResponceStatuses = /* @__PURE__ */ ((ResponceStatuses2) => {
-  ResponceStatuses2["error"] = "error";
-  ResponceStatuses2["success"] = "success";
-  return ResponceStatuses2;
-})(ResponceStatuses || {});
+// src/common/response/response-statuses.ts
+var ResponseStatuses = /* @__PURE__ */ ((ResponseStatuses2) => {
+  ResponseStatuses2["error"] = "error";
+  ResponseStatuses2["success"] = "success";
+  return ResponseStatuses2;
+})(ResponseStatuses || {});
 
-// src/common/response-success.ts
+// src/common/response/response-success.ts
 var ResponseSuccess = class {
   status = "success" /* success */;
 };
@@ -98,7 +98,17 @@ __decorateClass([
   Type(() => UserInToken)
 ], AccountRefreshRequest.prototype, "user", 2);
 
-// src/common/response-error.ts
+// src/account/account.logout-all.ts
+import { IsDefined as IsDefined4 } from "class-validator";
+var accountLogoutAllKey = "account.logouta-all.command";
+var AccountLogoutAllRequest = class {
+  userId;
+};
+__decorateClass([
+  IsDefined4()
+], AccountLogoutAllRequest.prototype, "userId", 2);
+
+// src/common/response/response-error.ts
 var ResponseError = class {
   status = "error" /* error */;
   error;
@@ -106,15 +116,17 @@ var ResponseError = class {
 export {
   AccountGetUserRequest,
   AccountLoginRequest,
+  AccountLogoutAllRequest,
   AccountLogoutRequest,
   AccountRefreshRequest,
   AccountRegisterRequest,
-  ResponceStatuses,
   ResponseError,
+  ResponseStatuses,
   ResponseSuccess,
   UserInToken,
   accountGetUserTopic,
   accountLoginKey,
+  accountLogoutAllKey,
   accountLogoutKey,
   accountRefreshKey,
   accountRegisterKey

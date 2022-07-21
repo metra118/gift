@@ -1,11 +1,11 @@
 import {
   ResponseError,
   ResponseSuccess,
-  ResponceStatuses,
+  ResponseStatuses,
 } from '@gift/contracts'
 
 export const isError = (
   res: ResponseError | ResponseSuccess,
 ): res is ResponseError => {
-  return res.status === ResponceStatuses.error
+  return res.status === ResponseStatuses.error
 }

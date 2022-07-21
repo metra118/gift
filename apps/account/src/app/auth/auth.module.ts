@@ -10,7 +10,7 @@ import { TokenService } from './token.service'
 
 @Module({
   imports: [UserModule, PrismaModule, JwtModule.registerAsync(getJWTConfig())],
-  providers: [AuthService, TokenService, PasswordService],
-  controllers: [AuthController],
+  providers: [AuthService, TokenService, PasswordService, AuthController],
+  controllers: [],
 })
 export class AuthModule {}

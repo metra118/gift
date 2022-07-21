@@ -1,69 +1,117 @@
-import { Body, Controller, UsePipes, ValidationPipe } from '@nestjs/common'
 import {
+  Controller,
+  Injectable,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common'
+import {
+  accountLoginKey,
   AccountLoginRequest,
   AccountLoginResponse,
-  accountLoginKey,
+  accountLogoutAllKey,
+  AccountLogoutAllRequest,
+  AccountLogoutAllResponse,
+  accountLogoutKey,
   AccountLogoutRequest,
   AccountLogoutResponse,
-  accountLogoutKey,
+  accountRefreshKey,
   AccountRefreshRequest,
   AccountRefreshResponse,
-  accountRefreshKey,
+  accountRegisterKey,
   AccountRegisterRequest,
   AccountRegisterResponse,
-  accountRegisterKey, ResponceStatuses,
+  ResponseStatuses,
 } from '@gift/contracts'
 import { AuthService } from './auth.service'
 import { RabbitPayload, RabbitRPC } from '@golevelup/nestjs-rabbitmq'
-import { ReplyErrorCallback } from '../reply.error.callback'
+import { replyErrorHandler } from '@gift/common'
 
-@Controller()
+@Injectable()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @UsePipes(ValidationPipe)
   @RabbitRPC({
     routingKey: accountRegisterKey,
-    queue: 'accountRegisterKey',
-    exchange: 'gift',
-    errorHandler: ReplyErrorCallback,
+    queue: accountRegisterKey,
+    exchange: process.env.AMQP_EXCHANGE,
+    errorHandler: replyErrorHandler,
   })
   async register(
-    @RabbitPayload() data: AccountRegisterRequest,
+    @RabbitPayload() payload: AccountRegisterRequest,
   ): Promise<AccountRegisterResponse> {
-    console.log('register')
-
-    return this.authService.register(data)
+    const data = await this.authService.register(payload)
+    return {
+      data,
+      status: ResponseStatuses.success,
+    }
   }
 
-  // @RMQValidate()
-  // @RMQRoute(accountLoginKey)
-  // login(data: AccountLoginRequest): Promise<AccountLoginResponse> {
-  //   return this.authService.login(data)
-  // }
-  //
-  // @RMQValidate()
-  // @RMQRoute(accountLogoutKey)
-  // logout(data: AccountLogoutRequest): Promise<AccountLogoutResponse> {
-  //   return this.authService.logout(data)
-  // }
-  //
+  @UsePipes(ValidationPipe)
+  @RabbitRPC({
+    routingKey: accountLoginKey,
+    queue: accountLoginKey,
+    exchange: process.env.AMQP_EXCHANGE,
+    errorHandler: replyErrorHandler,
+  })
+  async login(
+    @RabbitPayload() payload: AccountLoginRequest,
+  ): Promise<AccountLoginResponse> {
+    const data = await this.authService.login(payload)
+    return {
+      data,
+      status: ResponseStatuses.success,
+    }
+  }
+
+  @UsePipes(ValidationPipe)
+  @RabbitRPC({
+    routingKey: accountLogoutKey,
+    queue: accountLogoutKey,
+    exchange: process.env.AMQP_EXCHANGE,
+    errorHandler: replyErrorHandler,
+  })
+  async logout(
+    @RabbitPayload() payload: AccountLogoutRequest,
+  ): Promise<AccountLogoutResponse> {
+    const data = await this.authService.logout(payload)
+    return {
+      data,
+      status: ResponseStatuses.success,
+    }
+  }
+
+  @UsePipes(ValidationPipe)
+  @RabbitRPC({
+    routingKey: accountLogoutAllKey,
+    queue: accountLogoutAllKey,
+    exchange: process.env.AMQP_EXCHANGE,
+    errorHandler: replyErrorHandler,
+  })
+  async logoutAll(
+    @RabbitPayload() payload: AccountLogoutAllRequest,
+  ): Promise<AccountLogoutAllResponse> {
+    const data = await this.authService.logoutAll(payload)
+    return {
+      data,
+      status: ResponseStatuses.success,
+    }
+  }
 
   @UsePipes(ValidationPipe)
   @RabbitRPC({
     routingKey: accountRefreshKey,
-    queue: 'accountRegisterKey',
-    exchange: 'gift',
+    queue: accountRefreshKey,
+    exchange: process.env.AMQP_EXCHANGE,
+    errorHandler: replyErrorHandler,
   })
   async refresh(
-    @RabbitPayload() data: AccountRefreshRequest,
+    @RabbitPayload() payload: AccountRefreshRequest,
   ): Promise<AccountRefreshResponse> {
-    console.log('refresh')
+    const data = await this.authService.refresh(payload)
     return {
-      status: ResponceStatuses.success,
-      data: {
-        accessToken: 'awd',
-        refreshToken: 'awd',
-      },
+      data,
+      status: ResponseStatuses.success,
     }
   }
 }

@@ -8,11 +8,12 @@
   ],
   "scripts": {
     "dev": "turbo run dev --parallel --color",
-    "predev": "npm run docker",
+    "predev": "npm run docker:up",
     "build": "turbo run build",
     "start": "turbo run start",
     "lint": "turbo run lint",
-    "docker": "docker-compose -f ./configs/docker/docker-compose.development.yml up -d",
+    "docker:up": "docker-compose -f ./configs/docker/docker-compose.development.yml up -d",
+    "docker:down": "docker-compose -f ./configs/docker/docker-compose.development.yml down",
     "prepare": "husky install"
   },
   "devDependencies": {

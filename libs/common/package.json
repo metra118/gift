@@ -18,6 +18,10 @@
   "dependencies": {
     "@gift/eslint-config": "*",
     "@gift/tsconfig": "*",
-    "@gift/builder": "*"
+    "@gift/builder": "*",
+    "@nestjs/common": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/amqplib": "^0.8.2"
   }
 }

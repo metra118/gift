@@ -42,6 +42,12 @@ export class TokenService {
     })
   }
 
+  removeAllTokens(userId: string) {
+    return this.prismaService.session.deleteMany({
+      where: { userId },
+    })
+  }
+
   findRefreshToken(refreshToken: string) {
     return this.prismaService.session.findUnique({
       where: { refreshToken },

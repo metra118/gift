@@ -1,21 +1,21 @@
-import { IUserInToken } from '@gift/interfaces';
+import { ITokens, ILogout, IUserInToken } from '@gift/interfaces';
 
-declare enum ResponceStatuses {
+declare enum ResponseStatuses {
     error = "error",
     success = "success"
 }
 
 declare class ResponseError {
-    status: ResponceStatuses;
+    status: ResponseStatuses;
     error: {
         statusCode: number;
-        message: string;
-        errors: string[];
+        message: string | string[];
+        error: string;
     };
 }
 
 declare class ResponseSuccess {
-    status: ResponceStatuses;
+    status: ResponseStatuses;
 }
 
 declare const accountGetUserTopic = "account.get-user.query";
@@ -35,10 +35,7 @@ declare class AccountRegisterRequest {
     password: string;
 }
 declare class AccountRegisterResponseSuccess extends ResponseSuccess {
-    data: {
-        accessToken: string;
-        refreshToken: string;
-    };
+    data: ITokens;
 }
 declare type AccountRegisterResponse = AccountRegisterResponseSuccess | ResponseError;
 
@@ -48,10 +45,7 @@ declare class AccountLoginRequest {
     password: string;
 }
 declare class AccountLoginResponseSuccess extends ResponseSuccess {
-    data: {
-        accessToken: string;
-        refreshToken: string;
-    };
+    data: ITokens;
 }
 declare type AccountLoginResponse = AccountLoginResponseSuccess | ResponseError;
 
@@ -60,9 +54,7 @@ declare class AccountLogoutRequest {
     refreshToken: string;
 }
 declare class AccountLogoutResponseSuccess extends ResponseSuccess {
-    data: {
-        ok: boolean;
-    };
+    data: ILogout;
 }
 declare type AccountLogoutResponse = AccountLogoutResponseSuccess | ResponseError;
 
@@ -75,11 +67,17 @@ declare class AccountRefreshRequest {
     user: UserInToken;
 }
 declare class AccountRefreshResponseSuccess extends ResponseSuccess {
-    data: {
-        accessToken: string;
-        refreshToken: string;
-    };
+    data: ITokens;
 }
 declare type AccountRefreshResponse = AccountRefreshResponseSuccess | ResponseError;
 
-export { AccountGetUserRequest, AccountGetUserResponse, AccountLoginRequest, AccountLoginResponse, AccountLogoutRequest, AccountLogoutResponse, AccountRefreshRequest, AccountRefreshResponse, AccountRegisterRequest, AccountRegisterResponse, ResponceStatuses, ResponseError, ResponseSuccess, UserInToken, accountGetUserTopic, accountLoginKey, accountLogoutKey, accountRefreshKey, accountRegisterKey };
+declare const accountLogoutAllKey = "account.logouta-all.command";
+declare class AccountLogoutAllRequest {
+    userId: string;
+}
+declare class AccountLogoutAllResponseSuccess extends ResponseSuccess {
+    data: ILogout;
+}
+declare type AccountLogoutAllResponse = AccountLogoutAllResponseSuccess | ResponseError;
+
+export { AccountGetUserRequest, AccountGetUserResponse, AccountLoginRequest, AccountLoginResponse, AccountLogoutAllRequest, AccountLogoutAllResponse, AccountLogoutRequest, AccountLogoutResponse, AccountRefreshRequest, AccountRefreshResponse, AccountRegisterRequest, AccountRegisterResponse, ResponseError, ResponseStatuses, ResponseSuccess, UserInToken, accountGetUserTopic, accountLoginKey, accountLogoutAllKey, accountLogoutKey, accountRefreshKey, accountRegisterKey };

@@ -1,6 +1,7 @@
+import { ITokens } from '@gift/interfaces'
 import { IsDefined, IsEmail, MaxLength, MinLength } from 'class-validator'
-import { ResponseSuccess } from '../common/response-success'
-import { ResponseError } from '../common/response-error'
+import { ResponseSuccess } from '../common/response/response-success'
+import { ResponseError } from '../common/response/response-error'
 
 export const accountRegisterKey = 'account.register.command'
 
@@ -16,10 +17,7 @@ export class AccountRegisterRequest {
 }
 
 class AccountRegisterResponseSuccess extends ResponseSuccess {
-  data: {
-    accessToken: string
-    refreshToken: string
-  }
+  data: ITokens
 }
 
 export type AccountRegisterResponse =

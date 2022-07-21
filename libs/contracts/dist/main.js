@@ -31,15 +31,17 @@ var main_exports = {};
 __export(main_exports, {
   AccountGetUserRequest: () => AccountGetUserRequest,
   AccountLoginRequest: () => AccountLoginRequest,
+  AccountLogoutAllRequest: () => AccountLogoutAllRequest,
   AccountLogoutRequest: () => AccountLogoutRequest,
   AccountRefreshRequest: () => AccountRefreshRequest,
   AccountRegisterRequest: () => AccountRegisterRequest,
-  ResponceStatuses: () => ResponceStatuses,
   ResponseError: () => ResponseError,
+  ResponseStatuses: () => ResponseStatuses,
   ResponseSuccess: () => ResponseSuccess,
   UserInToken: () => UserInToken,
   accountGetUserTopic: () => accountGetUserTopic,
   accountLoginKey: () => accountLoginKey,
+  accountLogoutAllKey: () => accountLogoutAllKey,
   accountLogoutKey: () => accountLogoutKey,
   accountRefreshKey: () => accountRefreshKey,
   accountRegisterKey: () => accountRegisterKey
@@ -49,14 +51,14 @@ module.exports = __toCommonJS(main_exports);
 // src/account/account.get-user.ts
 var import_class_validator = require("class-validator");
 
-// src/common/responce-statuses.ts
-var ResponceStatuses = /* @__PURE__ */ ((ResponceStatuses2) => {
-  ResponceStatuses2["error"] = "error";
-  ResponceStatuses2["success"] = "success";
-  return ResponceStatuses2;
-})(ResponceStatuses || {});
+// src/common/response/response-statuses.ts
+var ResponseStatuses = /* @__PURE__ */ ((ResponseStatuses2) => {
+  ResponseStatuses2["error"] = "error";
+  ResponseStatuses2["success"] = "success";
+  return ResponseStatuses2;
+})(ResponseStatuses || {});
 
-// src/common/response-success.ts
+// src/common/response/response-success.ts
 var ResponseSuccess = class {
   status = "success" /* success */;
 };
@@ -134,7 +136,17 @@ __decorateClass([
   (0, import_class_transformer.Type)(() => UserInToken)
 ], AccountRefreshRequest.prototype, "user", 2);
 
-// src/common/response-error.ts
+// src/account/account.logout-all.ts
+var import_class_validator6 = require("class-validator");
+var accountLogoutAllKey = "account.logouta-all.command";
+var AccountLogoutAllRequest = class {
+  userId;
+};
+__decorateClass([
+  (0, import_class_validator6.IsDefined)()
+], AccountLogoutAllRequest.prototype, "userId", 2);
+
+// src/common/response/response-error.ts
 var ResponseError = class {
   status = "error" /* error */;
   error;
@@ -143,15 +155,17 @@ var ResponseError = class {
 0 && (module.exports = {
   AccountGetUserRequest,
   AccountLoginRequest,
+  AccountLogoutAllRequest,
   AccountLogoutRequest,
   AccountRefreshRequest,
   AccountRegisterRequest,
-  ResponceStatuses,
   ResponseError,
+  ResponseStatuses,
   ResponseSuccess,
   UserInToken,
   accountGetUserTopic,
   accountLoginKey,
+  accountLogoutAllKey,
   accountLogoutKey,
   accountRefreshKey,
   accountRegisterKey

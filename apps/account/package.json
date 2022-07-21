@@ -30,7 +30,6 @@
     "@gift/builder": "*",
     "@gift/eslint-config": "*",
     "@gift/tsconfig": "*",
-    "@types/amqplib": "^0.8.2",
     "@types/ms": "^0.7.31",
     "prisma": "^4.0.0"
   }
