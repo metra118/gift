@@ -13,9 +13,11 @@ import {
 import { UserRepository } from '../user/user.repository'
 import { UserEntity } from '../user/user.entity'
 import { PasswordService } from './password.service'
-import { SessionDto } from './session.dto'
+import { CreateSessionDto } from './dtos/create-session.dto'
 import { TokenService } from './token.service'
 import { ILogout, IsOk, ITokens } from '@gift/interfaces'
+import { CreateUserDto } from './dtos/create-user.dto'
+import { UpdateSessionDto } from './dtos/update-session.dto'
 
 @Injectable()
 export class AuthService {
@@ -33,7 +35,7 @@ export class AuthService {
   }
 
   async refresh(data: AccountRefreshRequest): Promise<ITokens> {
-    const tokenFromDb = await this.tokenService.findRefreshToken(
+    const tokenFromDb = await this.tokenService.findTokensByRefresh(
       data.refreshToken,
     )
     if (!tokenFromDb) {
@@ -45,13 +47,16 @@ export class AuthService {
     if (!userCandidate) {
       throw new BadRequestException()
     }
-    await this.tokenService.removeTokensByRefreshToken(data.refreshToken)
     const userEntity = new UserEntity(userCandidate)
     const tokens = await this.tokenService.generateTokens({
       ...userEntity.getUserForTokens(),
     })
-    await this.tokenService.saveTokens(
-      new SessionDto({ ...tokens, ...userCandidate }),
+    await this.tokenService.updateTokens(
+      new UpdateSessionDto({
+        ...tokens,
+        userId: userCandidate.userId,
+        sessionId: tokenFromDb.sessionId,
+      }),
     )
     return {
       accessToken: tokens.accessToken,
@@ -96,7 +101,7 @@ export class AuthService {
       ...userEntity.getUserForTokens(),
     })
     await this.tokenService.saveTokens(
-      new SessionDto({ ...tokens, ...userCandidate }),
+      new CreateSessionDto({ ...tokens, ...userCandidate }),
     )
     return {
       accessToken: tokens.accessToken,
@@ -109,18 +114,19 @@ export class AuthService {
     if (userCandidate) {
       throw new BadRequestException('Такой пользователь уже зарегистрирован')
     }
-    const userEntity = new UserEntity({
-      ...data,
-      passwordHash: await this.passwordService.hash(data.password),
-    })
-    const newUser = await this.userRepository.createUser(userEntity)
-    userEntity.setUserId(newUser.userId)
+    const newUser = await this.userRepository.createUser(
+      new CreateUserDto({
+        ...data,
+        passwordHash: await this.passwordService.hash(data.password),
+      }),
+    )
+    const userEntity = new UserEntity(newUser)
     // todo mail service here
     const tokens = await this.tokenService.generateTokens({
       ...userEntity.getUserForTokens(),
     })
     await this.tokenService.saveTokens(
-      new SessionDto({ ...tokens, ...newUser }),
+      new CreateSessionDto({ ...tokens, ...newUser }),
     )
     return {
       accessToken: tokens.accessToken,

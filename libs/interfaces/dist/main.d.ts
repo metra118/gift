@@ -6,7 +6,17 @@ interface ISession {
 }
 
 interface IUser {
-    userId?: string;
+    userId: string;
+    email: string;
+    passwordHash: string;
+    isActive: boolean;
+    firstName: string | null;
+    lastName: string | null;
+    nickname: string | null;
+    bio: string | null;
+}
+
+interface IUserToCreate {
     email: string;
     passwordHash: string;
 }
@@ -28,4 +38,4 @@ declare type ILogout = IsOk;
 
 declare type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<T>;
 
-export { ILogout, ISession, ITokens, IUser, IUserInToken, IsOk, PartialBy };
+export { ILogout, ISession, ITokens, IUser, IUserInToken, IUserToCreate, IsOk, PartialBy };

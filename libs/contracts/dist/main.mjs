@@ -10,7 +10,7 @@ var __decorateClass = (decorators, target, key, kind) => {
   return result;
 };
 
-// src/account/account.get-user.ts
+// src/account/user/account.get-user.ts
 import { IsNumber } from "class-validator";
 
 // src/common/response/response-statuses.ts
@@ -25,7 +25,7 @@ var ResponseSuccess = class {
   status = "success" /* success */;
 };
 
-// src/account/account.get-user.ts
+// src/account/user/account.get-user.ts
 var accountGetUserTopic = "account.get-user.query";
 var AccountGetUserRequest = class {
   userId;
@@ -34,7 +34,7 @@ __decorateClass([
   IsNumber()
 ], AccountGetUserRequest.prototype, "userId", 2);
 
-// src/account/account.register.ts
+// src/account/auth/account.register.ts
 import { IsDefined, IsEmail, MaxLength, MinLength } from "class-validator";
 var accountRegisterKey = "account.register.command";
 var AccountRegisterRequest = class {
@@ -51,7 +51,7 @@ __decorateClass([
   MaxLength(32)
 ], AccountRegisterRequest.prototype, "password", 2);
 
-// src/account/account.login.ts
+// src/account/auth/account.login.ts
 import { IsEmail as IsEmail2, IsString } from "class-validator";
 var accountLoginKey = "account.login.command";
 var AccountLoginRequest = class {
@@ -65,7 +65,7 @@ __decorateClass([
   IsString()
 ], AccountLoginRequest.prototype, "password", 2);
 
-// src/account/account.logout.ts
+// src/account/auth/account.logout.ts
 import { IsDefined as IsDefined2 } from "class-validator";
 var accountLogoutKey = "account.logout.command";
 var AccountLogoutRequest = class {
@@ -75,7 +75,7 @@ __decorateClass([
   IsDefined2()
 ], AccountLogoutRequest.prototype, "refreshToken", 2);
 
-// src/account/account.refresh.ts
+// src/account/auth/account.refresh.ts
 import { IsDefined as IsDefined3, IsString as IsString2, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
 var accountRefreshKey = "account.refresh.command";
@@ -98,7 +98,7 @@ __decorateClass([
   Type(() => UserInToken)
 ], AccountRefreshRequest.prototype, "user", 2);
 
-// src/account/account.logout-all.ts
+// src/account/auth/account.logout-all.ts
 import { IsDefined as IsDefined4 } from "class-validator";
 var accountLogoutAllKey = "account.logouta-all.command";
 var AccountLogoutAllRequest = class {
@@ -108,7 +108,7 @@ __decorateClass([
   IsDefined4()
 ], AccountLogoutAllRequest.prototype, "userId", 2);
 
-// src/account/account.remove-dead-tokens.ts
+// src/account/auth/account.remove-dead-tokens.ts
 var accountRemoveDeadTokensKey = "account.remove-dead-tokens.command";
 var AccountRemoveDeadTokensRequest = class {
 };

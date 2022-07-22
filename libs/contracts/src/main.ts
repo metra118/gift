@@ -1,10 +1,11 @@
-export * from './account/account.get-user'
-export * from './account/account.register'
-export * from './account/account.login'
-export * from './account/account.logout'
-export * from './account/account.refresh'
-export * from './account/account.logout-all'
-export * from './account/account.remove-dead-tokens'
+export * from './account/user/account.get-user'
+
+export * from './account/auth/account.register'
+export * from './account/auth/account.login'
+export * from './account/auth/account.logout'
+export * from './account/auth/account.refresh'
+export * from './account/auth/account.logout-all'
+export * from './account/auth/account.remove-dead-tokens'
 
 export * from './common/response/response-success'
 export * from './common/response/response-error'

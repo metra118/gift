@@ -23,7 +23,7 @@ declare class AccountGetUserRequest {
     userId: number;
 }
 declare class AccountGetUserResponseSuccess extends ResponseSuccess {
-    data: {
+    payload: {
         name: string;
     };
 }

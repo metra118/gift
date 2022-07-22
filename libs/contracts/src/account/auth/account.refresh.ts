@@ -1,8 +1,8 @@
 import { IsDefined, IsString, ValidateNested } from 'class-validator'
 import { ITokens, IUserInToken } from '@gift/interfaces'
 import { Type } from 'class-transformer'
-import { ResponseError } from '../common/response/response-error'
-import { ResponseSuccess } from '../common/response/response-success'
+import { ResponseError } from '../../common/response/response-error'
+import { ResponseSuccess } from '../../common/response/response-success'
 
 export const accountRefreshKey = 'account.refresh.command'
 

@@ -1,0 +1,13 @@
+import { ISession } from '@gift/interfaces'
+
+export class CreateSessionDto {
+  accessToken: string
+  refreshToken: string
+  userId: string
+
+  constructor(data: Omit<ISession, 'sessionId'>) {
+    this.accessToken = data.accessToken
+    this.refreshToken = data.refreshToken
+    this.userId = data.userId
+  }
+}

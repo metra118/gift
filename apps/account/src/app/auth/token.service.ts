@@ -3,9 +3,10 @@ import { JwtService } from '@nestjs/jwt'
 import { Session } from '@prisma/client'
 import ms from 'ms'
 import { PrismaService } from '../prisma/prisma.service'
-import { SessionDto } from './session.dto'
+import { CreateSessionDto } from './dtos/create-session.dto'
 import { ConfigService } from '@nestjs/config'
 import { IUserInToken } from '@gift/interfaces'
+import { UpdateSessionDto } from './dtos/update-session.dto'
 
 @Injectable()
 export class TokenService {
@@ -30,7 +31,22 @@ export class TokenService {
     }
   }
 
-  async saveTokens(sessionData: SessionDto): Promise<Session> {
+  updateTokens(updateSessionData: UpdateSessionDto) {
+    return this.prismaService.session.update({
+      where: {
+        sessionId: updateSessionData.sessionId,
+      },
+      data: {
+        ...updateSessionData,
+        expiryDate: new Date(
+          Date.now() +
+            ms(this.configService.getOrThrow<string>('JWT_REFRESH_EXPIRES_IN')),
+        ),
+      },
+    })
+  }
+
+  async saveTokens(sessionData: CreateSessionDto): Promise<Session> {
     return this.prismaService.session.create({
       data: {
         ...sessionData,
@@ -58,7 +74,7 @@ export class TokenService {
     })
   }
 
-  findRefreshToken(refreshToken: string) {
+  findTokensByRefresh(refreshToken: string) {
     return this.prismaService.session.findUnique({
       where: { refreshToken },
     })

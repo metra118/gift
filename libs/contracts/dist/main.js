@@ -50,7 +50,7 @@ __export(main_exports, {
 });
 module.exports = __toCommonJS(main_exports);
 
-// src/account/account.get-user.ts
+// src/account/user/account.get-user.ts
 var import_class_validator = require("class-validator");
 
 // src/common/response/response-statuses.ts
@@ -65,7 +65,7 @@ var ResponseSuccess = class {
   status = "success" /* success */;
 };
 
-// src/account/account.get-user.ts
+// src/account/user/account.get-user.ts
 var accountGetUserTopic = "account.get-user.query";
 var AccountGetUserRequest = class {
   userId;
@@ -74,7 +74,7 @@ __decorateClass([
   (0, import_class_validator.IsNumber)()
 ], AccountGetUserRequest.prototype, "userId", 2);
 
-// src/account/account.register.ts
+// src/account/auth/account.register.ts
 var import_class_validator2 = require("class-validator");
 var accountRegisterKey = "account.register.command";
 var AccountRegisterRequest = class {
@@ -91,7 +91,7 @@ __decorateClass([
   (0, import_class_validator2.MaxLength)(32)
 ], AccountRegisterRequest.prototype, "password", 2);
 
-// src/account/account.login.ts
+// src/account/auth/account.login.ts
 var import_class_validator3 = require("class-validator");
 var accountLoginKey = "account.login.command";
 var AccountLoginRequest = class {
@@ -105,7 +105,7 @@ __decorateClass([
   (0, import_class_validator3.IsString)()
 ], AccountLoginRequest.prototype, "password", 2);
 
-// src/account/account.logout.ts
+// src/account/auth/account.logout.ts
 var import_class_validator4 = require("class-validator");
 var accountLogoutKey = "account.logout.command";
 var AccountLogoutRequest = class {
@@ -115,7 +115,7 @@ __decorateClass([
   (0, import_class_validator4.IsDefined)()
 ], AccountLogoutRequest.prototype, "refreshToken", 2);
 
-// src/account/account.refresh.ts
+// src/account/auth/account.refresh.ts
 var import_class_validator5 = require("class-validator");
 var import_class_transformer = require("class-transformer");
 var accountRefreshKey = "account.refresh.command";
@@ -138,7 +138,7 @@ __decorateClass([
   (0, import_class_transformer.Type)(() => UserInToken)
 ], AccountRefreshRequest.prototype, "user", 2);
 
-// src/account/account.logout-all.ts
+// src/account/auth/account.logout-all.ts
 var import_class_validator6 = require("class-validator");
 var accountLogoutAllKey = "account.logouta-all.command";
 var AccountLogoutAllRequest = class {
@@ -148,7 +148,7 @@ __decorateClass([
   (0, import_class_validator6.IsDefined)()
 ], AccountLogoutAllRequest.prototype, "userId", 2);
 
-// src/account/account.remove-dead-tokens.ts
+// src/account/auth/account.remove-dead-tokens.ts
 var accountRemoveDeadTokensKey = "account.remove-dead-tokens.command";
 var AccountRemoveDeadTokensRequest = class {
 };

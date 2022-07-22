@@ -1,7 +1,7 @@
 import { ITokens } from '@gift/interfaces'
 import { IsDefined, IsEmail, MaxLength, MinLength } from 'class-validator'
-import { ResponseSuccess } from '../common/response/response-success'
-import { ResponseError } from '../common/response/response-error'
+import { ResponseSuccess } from '../../common/response/response-success'
+import { ResponseError } from '../../common/response/response-error'
 
 export const accountRegisterKey = 'account.register.command'
 

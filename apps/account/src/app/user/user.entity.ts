@@ -1,20 +1,25 @@
-import { cloneDeep } from 'lodash'
-import { IUser, IUserInToken, PartialBy } from '@gift/interfaces'
+import { IUser, IUserInToken } from '@gift/interfaces'
 import { UnauthorizedException } from '@nestjs/common'
 
 export class UserEntity implements IUser {
-  userId?: string
+  userId: string
   email: string
   passwordHash: string
+  isActive: boolean
+  firstName: string | null
+  lastName: string | null
+  nickname: string | null
+  bio: string | null
 
   constructor(user: IUser) {
     this.userId = user.userId
     this.email = user.email
     this.passwordHash = user.passwordHash
-  }
-
-  setUserId(userId: string) {
-    this.userId = userId
+    this.isActive = user.isActive
+    this.firstName = user.firstName
+    this.lastName = user.lastName
+    this.nickname = user.nickname
+    this.bio = user.bio
   }
 
   getUserForTokens(): IUserInToken {

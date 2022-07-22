@@ -19,7 +19,7 @@
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.1",
     "@nestjs/jwt": "^9.0.0",
-    "@prisma/client": "^4.0.0",
+    "@prisma/client": "^4.1.0",
     "@types/lodash": "^4.14.182",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
@@ -33,6 +33,6 @@
     "@gift/eslint-config": "*",
     "@gift/tsconfig": "*",
     "@types/ms": "^0.7.31",
-    "prisma": "^4.0.0"
+    "prisma": "^4.1.0"
   }
 }
