@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Session } from '@prisma/client'
 import ms from 'ms'
-import { PrismaService } from '../prisma/prisma.service'
-import { CreateSessionDto } from './dtos/create-session.dto'
+import { PrismaService } from '../../prisma/prisma.service'
+import { CreateSessionDto } from '../dtos/create-session.dto'
 import { ConfigService } from '@nestjs/config'
 import { IUserInToken } from '@gift/interfaces'
-import { UpdateSessionDto } from './dtos/update-session.dto'
+import { UpdateSessionDto } from '../dtos/update-session.dto'
 
 @Injectable()
 export class TokenService {

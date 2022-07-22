@@ -1,6 +1,19 @@
-import { Controller, Get, Param, ValidationPipe } from '@nestjs/common'
+import {
+  Controller,
+  Get,
+  HttpException,
+  Param,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common'
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq'
 import { ConfigService } from '@nestjs/config'
+import {
+  AccountGetUserProfileRequest,
+  AccountGetUserProfileResponse,
+  accountGetUserProfileTopic,
+} from '@gift/contracts'
+import { isError } from '@gift/common'
 
 @Controller()
 export class UserController {
@@ -10,9 +23,21 @@ export class UserController {
   ) {}
 
   @Get('/:userId')
-  async getUser(@Param('userId', ValidationPipe) userId: string) {
+  @UsePipes(ValidationPipe)
+  async getUser(@Param() params: AccountGetUserProfileRequest) {
     try {
-      return 232
+      const res =
+        await this.amqpConnection.request<AccountGetUserProfileResponse>({
+          exchange: this.configService.getOrThrow('AMQP_EXCHANGE'),
+          routingKey: accountGetUserProfileTopic,
+          payload: params,
+        })
+
+      if (isError(res)) {
+        throw new HttpException(res.error, res.error.statusCode)
+      }
+
+      return res.payload
     } catch (e) {
       console.error(e)
     }

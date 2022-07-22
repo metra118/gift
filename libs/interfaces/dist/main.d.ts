@@ -5,6 +5,8 @@ interface ISession {
     userId: string;
 }
 
+declare type ICreateSession = Pick<ISession, 'accessToken' | 'refreshToken' | 'userId'>;
+
 interface IUser {
     userId: string;
     email: string;
@@ -16,10 +18,7 @@ interface IUser {
     bio: string | null;
 }
 
-interface IUserToCreate {
-    email: string;
-    passwordHash: string;
-}
+declare type ICreateUser = Pick<IUser, 'email' | 'passwordHash'>;
 
 interface IUserInToken {
     userId: string;
@@ -36,6 +35,8 @@ interface IsOk {
 
 declare type ILogout = IsOk;
 
+declare type IUserProfile = Omit<IUser, 'passwordHash'>;
+
 declare type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<T>;
 
-export { ILogout, ISession, ITokens, IUser, IUserInToken, IUserToCreate, IsOk, PartialBy };
+export { ICreateSession, ICreateUser, ILogout, ISession, ITokens, IUser, IUserInToken, IUserProfile, IsOk, PartialBy };

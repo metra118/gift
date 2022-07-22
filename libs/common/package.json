@@ -11,10 +11,10 @@
     "lint": "npm run lint:prettier && npm run lint:ts && npm run lint:eslint",
     "lint:fix": "npm run lint:prettier:fix && npm run lint:eslint:fix",
     "lint:eslint": "eslint ./src",
-    "lint:ts": "tsc --noEmit",
     "lint:eslint:fix": "eslint --fix ./src",
     "lint:prettier": "prettier --check ./src",
-    "lint:prettier:fix": "prettier --write ./src"
+    "lint:prettier:fix": "prettier --write ./src",
+    "lint:ts": "tsc --noEmit"
   },
   "dependencies": {
     "@gift/eslint-config": "*",

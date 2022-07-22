@@ -1,10 +1,10 @@
-import { IUserToCreate } from '@gift/interfaces'
+import { ICreateUser } from '@gift/interfaces'
 
-export class CreateUserDto implements IUserToCreate {
+export class CreateUserDto implements ICreateUser {
   email: string
   passwordHash: string
 
-  constructor(user: IUserToCreate) {
+  constructor(user: ICreateUser) {
     this.email = user.email
     this.passwordHash = user.passwordHash
   }

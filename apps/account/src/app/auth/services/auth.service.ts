@@ -10,14 +10,14 @@ import {
   AccountRefreshRequest,
   AccountRegisterRequest,
 } from '@gift/contracts'
-import { UserRepository } from '../user/user.repository'
-import { UserEntity } from '../user/user.entity'
+import { UserRepository } from '../../user/user.repository'
+import { UserEntity } from '../../user/user.entity'
 import { PasswordService } from './password.service'
-import { CreateSessionDto } from './dtos/create-session.dto'
+import { CreateSessionDto } from '../dtos/create-session.dto'
 import { TokenService } from './token.service'
 import { ILogout, IsOk, ITokens } from '@gift/interfaces'
-import { CreateUserDto } from './dtos/create-user.dto'
-import { UpdateSessionDto } from './dtos/update-session.dto'
+import { CreateUserDto } from '../dtos/create-user.dto'
+import { UpdateSessionDto } from '../dtos/update-session.dto'
 
 @Injectable()
 export class AuthService {

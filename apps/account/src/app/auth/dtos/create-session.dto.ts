@@ -1,11 +1,11 @@
-import { ISession } from '@gift/interfaces'
+import { ICreateSession } from '@gift/interfaces'
 
-export class CreateSessionDto {
+export class CreateSessionDto implements ICreateSession {
   accessToken: string
   refreshToken: string
   userId: string
 
-  constructor(data: Omit<ISession, 'sessionId'>) {
+  constructor(data: ICreateSession) {
     this.accessToken = data.accessToken
     this.refreshToken = data.refreshToken
     this.userId = data.userId

@@ -1,4 +1,4 @@
-export * from './account/user/account.get-user'
+export * from './account/user/account.get-user-profile'
 
 export * from './account/auth/account.register'
 export * from './account/auth/account.login'

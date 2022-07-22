@@ -1,4 +1,4 @@
-import { IUser, IUserInToken } from '@gift/interfaces'
+import { IUser, IUserInToken, IUserProfile } from '@gift/interfaces'
 import { UnauthorizedException } from '@nestjs/common'
 
 export class UserEntity implements IUser {
@@ -20,6 +20,18 @@ export class UserEntity implements IUser {
     this.lastName = user.lastName
     this.nickname = user.nickname
     this.bio = user.bio
+  }
+
+  getUserProfile(): IUserProfile {
+    return {
+      userId: this.userId,
+      email: this.email,
+      isActive: this.isActive,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      nickname: this.nickname,
+      bio: this.bio,
+    }
   }
 
   getUserForTokens(): IUserInToken {

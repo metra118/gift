@@ -1,4 +1,4 @@
-import { ITokens, ILogout, IUserInToken, IsOk } from '@gift/interfaces';
+import { IUserProfile, ITokens, ILogout, IUserInToken, IsOk } from '@gift/interfaces';
 
 declare enum ResponseStatuses {
     error = "error",
@@ -18,16 +18,14 @@ declare class ResponseSuccess {
     status: ResponseStatuses;
 }
 
-declare const accountGetUserTopic = "account.get-user.query";
-declare class AccountGetUserRequest {
-    userId: number;
+declare const accountGetUserProfileTopic = "account.get-user-profile.query";
+declare class AccountGetUserProfileRequest {
+    userId: string;
 }
-declare class AccountGetUserResponseSuccess extends ResponseSuccess {
-    payload: {
-        name: string;
-    };
+declare class AccountGetUserProfileResponseSuccess extends ResponseSuccess {
+    payload: IUserProfile;
 }
-declare type AccountGetUserResponse = AccountGetUserResponseSuccess | ResponseError;
+declare type AccountGetUserProfileResponse = AccountGetUserProfileResponseSuccess | ResponseError;
 
 declare const accountRegisterKey = "account.register.command";
 declare class AccountRegisterRequest {
@@ -88,4 +86,4 @@ declare class AccountRemoveDeadTokensResponseSuccess extends ResponseSuccess {
 }
 declare type AccountRemoveDeadTokensResponse = AccountRemoveDeadTokensResponseSuccess | ResponseError;
 
-export { AccountGetUserRequest, AccountGetUserResponse, AccountLoginRequest, AccountLoginResponse, AccountLogoutAllRequest, AccountLogoutAllResponse, AccountLogoutRequest, AccountLogoutResponse, AccountRefreshRequest, AccountRefreshResponse, AccountRegisterRequest, AccountRegisterResponse, AccountRemoveDeadTokensRequest, AccountRemoveDeadTokensResponse, ResponseError, ResponseStatuses, ResponseSuccess, UserInToken, accountGetUserTopic, accountLoginKey, accountLogoutAllKey, accountLogoutKey, accountRefreshKey, accountRegisterKey, accountRemoveDeadTokensKey };
+export { AccountGetUserProfileRequest, AccountGetUserProfileResponse, AccountLoginRequest, AccountLoginResponse, AccountLogoutAllRequest, AccountLogoutAllResponse, AccountLogoutRequest, AccountLogoutResponse, AccountRefreshRequest, AccountRefreshResponse, AccountRegisterRequest, AccountRegisterResponse, AccountRemoveDeadTokensRequest, AccountRemoveDeadTokensResponse, ResponseError, ResponseStatuses, ResponseSuccess, UserInToken, accountGetUserProfileTopic, accountLoginKey, accountLogoutAllKey, accountLogoutKey, accountRefreshKey, accountRegisterKey, accountRemoveDeadTokensKey };

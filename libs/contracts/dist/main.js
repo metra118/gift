@@ -29,7 +29,7 @@ var __decorateClass = (decorators, target, key, kind) => {
 // src/main.ts
 var main_exports = {};
 __export(main_exports, {
-  AccountGetUserRequest: () => AccountGetUserRequest,
+  AccountGetUserProfileRequest: () => AccountGetUserProfileRequest,
   AccountLoginRequest: () => AccountLoginRequest,
   AccountLogoutAllRequest: () => AccountLogoutAllRequest,
   AccountLogoutRequest: () => AccountLogoutRequest,
@@ -40,7 +40,7 @@ __export(main_exports, {
   ResponseStatuses: () => ResponseStatuses,
   ResponseSuccess: () => ResponseSuccess,
   UserInToken: () => UserInToken,
-  accountGetUserTopic: () => accountGetUserTopic,
+  accountGetUserProfileTopic: () => accountGetUserProfileTopic,
   accountLoginKey: () => accountLoginKey,
   accountLogoutAllKey: () => accountLogoutAllKey,
   accountLogoutKey: () => accountLogoutKey,
@@ -50,7 +50,7 @@ __export(main_exports, {
 });
 module.exports = __toCommonJS(main_exports);
 
-// src/account/user/account.get-user.ts
+// src/account/user/account.get-user-profile.ts
 var import_class_validator = require("class-validator");
 
 // src/common/response/response-statuses.ts
@@ -65,14 +65,14 @@ var ResponseSuccess = class {
   status = "success" /* success */;
 };
 
-// src/account/user/account.get-user.ts
-var accountGetUserTopic = "account.get-user.query";
-var AccountGetUserRequest = class {
+// src/account/user/account.get-user-profile.ts
+var accountGetUserProfileTopic = "account.get-user-profile.query";
+var AccountGetUserProfileRequest = class {
   userId;
 };
 __decorateClass([
-  (0, import_class_validator.IsNumber)()
-], AccountGetUserRequest.prototype, "userId", 2);
+  (0, import_class_validator.IsString)()
+], AccountGetUserProfileRequest.prototype, "userId", 2);
 
 // src/account/auth/account.register.ts
 var import_class_validator2 = require("class-validator");
@@ -160,7 +160,7 @@ var ResponseError = class {
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  AccountGetUserRequest,
+  AccountGetUserProfileRequest,
   AccountLoginRequest,
   AccountLogoutAllRequest,
   AccountLogoutRequest,
@@ -171,7 +171,7 @@ var ResponseError = class {
   ResponseStatuses,
   ResponseSuccess,
   UserInToken,
-  accountGetUserTopic,
+  accountGetUserProfileTopic,
   accountLoginKey,
   accountLogoutAllKey,
   accountLogoutKey,

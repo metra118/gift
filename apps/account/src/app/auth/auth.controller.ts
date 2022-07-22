@@ -19,7 +19,7 @@ import {
   AccountRemoveDeadTokensResponse,
   ResponseStatuses,
 } from '@gift/contracts'
-import { AuthService } from './auth.service'
+import { AuthService } from './services/auth.service'
 import { RabbitPayload, RabbitRPC } from '@golevelup/nestjs-rabbitmq'
 import { replyErrorHandler } from '@gift/common'
 
