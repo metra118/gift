@@ -16,8 +16,8 @@ Content-Type: application/json
   "password": "awdawdawdawdawd_awdawd_awd"
 }
 
-### test
-GET {{host}}/auth/test
+### removeDeadTokens
+GET {{host}}/auth/removeDeadTokens
 
 ### logout
 POST {{host}}/auth/logout

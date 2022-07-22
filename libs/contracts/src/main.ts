@@ -4,6 +4,7 @@ export * from './account/account.login'
 export * from './account/account.logout'
 export * from './account/account.refresh'
 export * from './account/account.logout-all'
+export * from './account/account.remove-dead-tokens'
 
 export * from './common/response/response-success'
 export * from './common/response/response-error'

@@ -14,7 +14,7 @@ export class AccountLoginRequest {
 }
 
 class AccountLoginResponseSuccess extends ResponseSuccess {
-  data: ITokens
+  payload: ITokens
 }
 
 export type AccountLoginResponse = AccountLoginResponseSuccess | ResponseError

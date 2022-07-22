@@ -108,6 +108,11 @@ __decorateClass([
   IsDefined4()
 ], AccountLogoutAllRequest.prototype, "userId", 2);
 
+// src/account/account.remove-dead-tokens.ts
+var accountRemoveDeadTokensKey = "account.remove-dead-tokens.command";
+var AccountRemoveDeadTokensRequest = class {
+};
+
 // src/common/response/response-error.ts
 var ResponseError = class {
   status = "error" /* error */;
@@ -120,6 +125,7 @@ export {
   AccountLogoutRequest,
   AccountRefreshRequest,
   AccountRegisterRequest,
+  AccountRemoveDeadTokensRequest,
   ResponseError,
   ResponseStatuses,
   ResponseSuccess,
@@ -129,5 +135,6 @@ export {
   accountLogoutAllKey,
   accountLogoutKey,
   accountRefreshKey,
-  accountRegisterKey
+  accountRegisterKey,
+  accountRemoveDeadTokensKey
 };

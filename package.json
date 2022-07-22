@@ -12,6 +12,7 @@
     "build": "turbo run build",
     "start": "turbo run start",
     "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
     "docker:up": "docker-compose -f ./configs/docker/docker-compose.development.yml up -d",
     "docker:down": "docker-compose -f ./configs/docker/docker-compose.development.yml down",
     "prepare": "husky install"

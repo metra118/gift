@@ -20,10 +20,12 @@ interface ITokens {
     refreshToken: string;
 }
 
-interface ILogout {
+interface IsOk {
     isOk: boolean;
 }
 
+declare type ILogout = IsOk;
+
 declare type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<T>;
 
-export { ILogout, ISession, ITokens, IUser, IUserInToken, PartialBy };
+export { ILogout, ISession, ITokens, IUser, IUserInToken, IsOk, PartialBy };

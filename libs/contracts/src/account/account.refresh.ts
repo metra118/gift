@@ -22,7 +22,7 @@ export class AccountRefreshRequest {
 }
 
 class AccountRefreshResponseSuccess extends ResponseSuccess {
-  data: ITokens
+  payload: ITokens
 }
 export type AccountRefreshResponse =
   | AccountRefreshResponseSuccess

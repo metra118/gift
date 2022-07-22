@@ -10,7 +10,7 @@ export class AccountGetUserRequest {
 }
 
 class AccountGetUserResponseSuccess extends ResponseSuccess {
-  data: {
+  payload: {
     name: string
   }
 }

@@ -11,7 +11,7 @@ export class AccountLogoutAllRequest {
 }
 
 class AccountLogoutAllResponseSuccess extends ResponseSuccess {
-  data: ILogout
+  payload: ILogout
 }
 
 export type AccountLogoutAllResponse =

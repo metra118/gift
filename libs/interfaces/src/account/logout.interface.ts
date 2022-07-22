@@ -1,3 +1,3 @@
-export interface ILogout {
-  isOk: boolean
-}
+import { IsOk } from '../common/is-ok'
+
+export type ILogout = IsOk

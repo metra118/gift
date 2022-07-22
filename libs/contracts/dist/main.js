@@ -35,6 +35,7 @@ __export(main_exports, {
   AccountLogoutRequest: () => AccountLogoutRequest,
   AccountRefreshRequest: () => AccountRefreshRequest,
   AccountRegisterRequest: () => AccountRegisterRequest,
+  AccountRemoveDeadTokensRequest: () => AccountRemoveDeadTokensRequest,
   ResponseError: () => ResponseError,
   ResponseStatuses: () => ResponseStatuses,
   ResponseSuccess: () => ResponseSuccess,
@@ -44,7 +45,8 @@ __export(main_exports, {
   accountLogoutAllKey: () => accountLogoutAllKey,
   accountLogoutKey: () => accountLogoutKey,
   accountRefreshKey: () => accountRefreshKey,
-  accountRegisterKey: () => accountRegisterKey
+  accountRegisterKey: () => accountRegisterKey,
+  accountRemoveDeadTokensKey: () => accountRemoveDeadTokensKey
 });
 module.exports = __toCommonJS(main_exports);
 
@@ -146,6 +148,11 @@ __decorateClass([
   (0, import_class_validator6.IsDefined)()
 ], AccountLogoutAllRequest.prototype, "userId", 2);
 
+// src/account/account.remove-dead-tokens.ts
+var accountRemoveDeadTokensKey = "account.remove-dead-tokens.command";
+var AccountRemoveDeadTokensRequest = class {
+};
+
 // src/common/response/response-error.ts
 var ResponseError = class {
   status = "error" /* error */;
@@ -159,6 +166,7 @@ var ResponseError = class {
   AccountLogoutRequest,
   AccountRefreshRequest,
   AccountRegisterRequest,
+  AccountRemoveDeadTokensRequest,
   ResponseError,
   ResponseStatuses,
   ResponseSuccess,
@@ -168,5 +176,6 @@ var ResponseError = class {
   accountLogoutAllKey,
   accountLogoutKey,
   accountRefreshKey,
-  accountRegisterKey
+  accountRegisterKey,
+  accountRemoveDeadTokensKey
 });

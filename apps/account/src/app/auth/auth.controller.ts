@@ -1,9 +1,4 @@
-import {
-  Controller,
-  Injectable,
-  UsePipes,
-  ValidationPipe,
-} from '@nestjs/common'
+import { Injectable, UsePipes, ValidationPipe } from '@nestjs/common'
 import {
   accountLoginKey,
   AccountLoginRequest,
@@ -20,6 +15,8 @@ import {
   accountRegisterKey,
   AccountRegisterRequest,
   AccountRegisterResponse,
+  accountRemoveDeadTokensKey,
+  AccountRemoveDeadTokensResponse,
   ResponseStatuses,
 } from '@gift/contracts'
 import { AuthService } from './auth.service'
@@ -38,11 +35,25 @@ export class AuthController {
     errorHandler: replyErrorHandler,
   })
   async register(
-    @RabbitPayload() payload: AccountRegisterRequest,
+    @RabbitPayload() payloadReq: AccountRegisterRequest,
   ): Promise<AccountRegisterResponse> {
-    const data = await this.authService.register(payload)
+    const payload = await this.authService.register(payloadReq)
     return {
-      data,
+      payload,
+      status: ResponseStatuses.success,
+    }
+  }
+
+  @RabbitRPC({
+    routingKey: accountRemoveDeadTokensKey,
+    queue: accountRemoveDeadTokensKey,
+    exchange: process.env.AMQP_EXCHANGE,
+    errorHandler: replyErrorHandler,
+  })
+  async removeDeadTokens(): Promise<AccountRemoveDeadTokensResponse> {
+    const payload = await this.authService.removeDeadTokens()
+    return {
+      payload,
       status: ResponseStatuses.success,
     }
   }
@@ -55,11 +66,11 @@ export class AuthController {
     errorHandler: replyErrorHandler,
   })
   async login(
-    @RabbitPayload() payload: AccountLoginRequest,
+    @RabbitPayload() payloadReq: AccountLoginRequest,
   ): Promise<AccountLoginResponse> {
-    const data = await this.authService.login(payload)
+    const payload = await this.authService.login(payloadReq)
     return {
-      data,
+      payload,
       status: ResponseStatuses.success,
     }
   }
@@ -72,11 +83,11 @@ export class AuthController {
     errorHandler: replyErrorHandler,
   })
   async logout(
-    @RabbitPayload() payload: AccountLogoutRequest,
+    @RabbitPayload() payloadReq: AccountLogoutRequest,
   ): Promise<AccountLogoutResponse> {
-    const data = await this.authService.logout(payload)
+    const payload = await this.authService.logout(payloadReq)
     return {
-      data,
+      payload,
       status: ResponseStatuses.success,
     }
   }
@@ -89,11 +100,11 @@ export class AuthController {
     errorHandler: replyErrorHandler,
   })
   async logoutAll(
-    @RabbitPayload() payload: AccountLogoutAllRequest,
+    @RabbitPayload() payloadReq: AccountLogoutAllRequest,
   ): Promise<AccountLogoutAllResponse> {
-    const data = await this.authService.logoutAll(payload)
+    const payload = await this.authService.logoutAll(payloadReq)
     return {
-      data,
+      payload,
       status: ResponseStatuses.success,
     }
   }
@@ -106,11 +117,11 @@ export class AuthController {
     errorHandler: replyErrorHandler,
   })
   async refresh(
-    @RabbitPayload() payload: AccountRefreshRequest,
+    @RabbitPayload() payloadReq: AccountRefreshRequest,
   ): Promise<AccountRefreshResponse> {
-    const data = await this.authService.refresh(payload)
+    const payload = await this.authService.refresh(payloadReq)
     return {
-      data,
+      payload,
       status: ResponseStatuses.success,
     }
   }

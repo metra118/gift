@@ -4,4 +4,6 @@ export * from './account/user-in-token.interface'
 export * from './account/tokens.interace'
 export * from './account/logout.interface'
 
+export * from './common/is-ok'
+
 export * from './types/PartialBy'

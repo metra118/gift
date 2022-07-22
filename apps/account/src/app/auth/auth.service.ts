@@ -15,7 +15,7 @@ import { UserEntity } from '../user/user.entity'
 import { PasswordService } from './password.service'
 import { SessionDto } from './session.dto'
 import { TokenService } from './token.service'
-import { ILogout, ITokens } from '@gift/interfaces'
+import { ILogout, IsOk, ITokens } from '@gift/interfaces'
 
 @Injectable()
 export class AuthService {
@@ -24,6 +24,13 @@ export class AuthService {
     private readonly passwordService: PasswordService,
     private readonly tokenService: TokenService,
   ) {}
+
+  async removeDeadTokens(): Promise<IsOk> {
+    let isOk = true
+    await this.tokenService.removeDeadTokens().catch(() => (isOk = false))
+
+    return { isOk }
+  }
 
   async refresh(data: AccountRefreshRequest): Promise<ITokens> {
     const tokenFromDb = await this.tokenService.findRefreshToken(
@@ -38,7 +45,7 @@ export class AuthService {
     if (!userCandidate) {
       throw new BadRequestException()
     }
-    await this.tokenService.removeTokens(data.refreshToken)
+    await this.tokenService.removeTokensByRefreshToken(data.refreshToken)
     const userEntity = new UserEntity(userCandidate)
     const tokens = await this.tokenService.generateTokens({
       ...userEntity.getUserForTokens(),
@@ -55,7 +62,7 @@ export class AuthService {
   async logout(data: AccountLogoutRequest): Promise<ILogout> {
     let isOk = true
     await this.tokenService
-      .removeTokens(data.refreshToken)
+      .removeTokensByRefreshToken(data.refreshToken)
       .catch(() => (isOk = false))
 
     return { isOk }
@@ -64,7 +71,7 @@ export class AuthService {
   async logoutAll(data: AccountLogoutAllRequest): Promise<ILogout> {
     let isOk = true
     await this.tokenService
-      .removeAllTokens(data.userId)
+      .removeAllTokensByUserId(data.userId)
       .catch(() => (isOk = false))
 
     return { isOk }

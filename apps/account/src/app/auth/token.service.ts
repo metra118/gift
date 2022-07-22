@@ -42,7 +42,17 @@ export class TokenService {
     })
   }
 
-  removeAllTokens(userId: string) {
+  removeDeadTokens() {
+    return this.prismaService.session.deleteMany({
+      where: {
+        expiryDate: {
+          lte: new Date(),
+        },
+      },
+    })
+  }
+
+  removeAllTokensByUserId(userId: string) {
     return this.prismaService.session.deleteMany({
       where: { userId },
     })
@@ -54,7 +64,7 @@ export class TokenService {
     })
   }
 
-  removeTokens(refreshToken: string) {
+  removeTokensByRefreshToken(refreshToken: string) {
     return this.prismaService.session.delete({
       where: { refreshToken },
     })

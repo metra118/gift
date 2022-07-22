@@ -17,7 +17,7 @@ export class AccountRegisterRequest {
 }
 
 class AccountRegisterResponseSuccess extends ResponseSuccess {
-  data: ITokens
+  payload: ITokens
 }
 
 export type AccountRegisterResponse =

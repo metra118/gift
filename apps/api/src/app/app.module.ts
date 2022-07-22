@@ -6,12 +6,14 @@ import { UserController } from './controllers/user.controller'
 import { AuthController } from './controllers/auth.controller'
 import { JwtModule } from '@nestjs/jwt'
 import { getJWTConfig } from './configs/jwt.config'
+import { ScheduleModule } from '@nestjs/schedule'
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     RabbitMQModule.forRootAsync(RabbitMQModule, getRMQConfig()),
     JwtModule.registerAsync(getJWTConfig()),
+    ScheduleModule.forRoot(),
   ],
   controllers: [UserController, AuthController],
 })

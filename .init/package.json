@@ -6,6 +6,7 @@
     "build": "builder",
     "dev": "nodemon --exec 'node -r esbuild-register ./src/main.ts' -e .ts",
     "lint": "npm run lint:prettier && npm run lint:ts && npm run lint:eslint",
+    "lint:fix": "npm run lint:prettier:fix && npm run lint:eslint:fix",
     "lint:eslint": "eslint ./src",
     "lint:ts": "tsc --noEmit",
     "lint:eslint:fix": "eslint --fix ./src",

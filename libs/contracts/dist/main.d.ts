@@ -1,4 +1,4 @@
-import { ITokens, ILogout, IUserInToken } from '@gift/interfaces';
+import { ITokens, ILogout, IUserInToken, IsOk } from '@gift/interfaces';
 
 declare enum ResponseStatuses {
     error = "error",
@@ -35,7 +35,7 @@ declare class AccountRegisterRequest {
     password: string;
 }
 declare class AccountRegisterResponseSuccess extends ResponseSuccess {
-    data: ITokens;
+    payload: ITokens;
 }
 declare type AccountRegisterResponse = AccountRegisterResponseSuccess | ResponseError;
 
@@ -45,7 +45,7 @@ declare class AccountLoginRequest {
     password: string;
 }
 declare class AccountLoginResponseSuccess extends ResponseSuccess {
-    data: ITokens;
+    payload: ITokens;
 }
 declare type AccountLoginResponse = AccountLoginResponseSuccess | ResponseError;
 
@@ -54,7 +54,7 @@ declare class AccountLogoutRequest {
     refreshToken: string;
 }
 declare class AccountLogoutResponseSuccess extends ResponseSuccess {
-    data: ILogout;
+    payload: ILogout;
 }
 declare type AccountLogoutResponse = AccountLogoutResponseSuccess | ResponseError;
 
@@ -67,7 +67,7 @@ declare class AccountRefreshRequest {
     user: UserInToken;
 }
 declare class AccountRefreshResponseSuccess extends ResponseSuccess {
-    data: ITokens;
+    payload: ITokens;
 }
 declare type AccountRefreshResponse = AccountRefreshResponseSuccess | ResponseError;
 
@@ -76,8 +76,16 @@ declare class AccountLogoutAllRequest {
     userId: string;
 }
 declare class AccountLogoutAllResponseSuccess extends ResponseSuccess {
-    data: ILogout;
+    payload: ILogout;
 }
 declare type AccountLogoutAllResponse = AccountLogoutAllResponseSuccess | ResponseError;
 
-export { AccountGetUserRequest, AccountGetUserResponse, AccountLoginRequest, AccountLoginResponse, AccountLogoutAllRequest, AccountLogoutAllResponse, AccountLogoutRequest, AccountLogoutResponse, AccountRefreshRequest, AccountRefreshResponse, AccountRegisterRequest, AccountRegisterResponse, ResponseError, ResponseStatuses, ResponseSuccess, UserInToken, accountGetUserTopic, accountLoginKey, accountLogoutAllKey, accountLogoutKey, accountRefreshKey, accountRegisterKey };
+declare const accountRemoveDeadTokensKey = "account.remove-dead-tokens.command";
+declare class AccountRemoveDeadTokensRequest {
+}
+declare class AccountRemoveDeadTokensResponseSuccess extends ResponseSuccess {
+    payload: IsOk;
+}
+declare type AccountRemoveDeadTokensResponse = AccountRemoveDeadTokensResponseSuccess | ResponseError;
+
+export { AccountGetUserRequest, AccountGetUserResponse, AccountLoginRequest, AccountLoginResponse, AccountLogoutAllRequest, AccountLogoutAllResponse, AccountLogoutRequest, AccountLogoutResponse, AccountRefreshRequest, AccountRefreshResponse, AccountRegisterRequest, AccountRegisterResponse, AccountRemoveDeadTokensRequest, AccountRemoveDeadTokensResponse, ResponseError, ResponseStatuses, ResponseSuccess, UserInToken, accountGetUserTopic, accountLoginKey, accountLogoutAllKey, accountLogoutKey, accountRefreshKey, accountRegisterKey, accountRemoveDeadTokensKey };

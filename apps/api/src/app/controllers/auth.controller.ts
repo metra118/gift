@@ -27,6 +27,8 @@ import {
   accountRegisterKey,
   AccountRegisterRequest,
   AccountRegisterResponse,
+  accountRemoveDeadTokensKey,
+  AccountRemoveDeadTokensResponse,
 } from '@gift/contracts'
 import { isError } from '@gift/common'
 import { GetCookies } from '../decorator/get-cookies.decorator'
@@ -34,6 +36,7 @@ import { ConfigService } from '@nestjs/config'
 import { JwtRefreshGuard } from '../guards/jwt-refresh.guard'
 import { GetUser } from '../decorator/get-user.decorator'
 import { ILogout, ITokens, IUserInToken } from '@gift/interfaces'
+import { Cron, CronExpression } from '@nestjs/schedule'
 
 @Controller('/auth')
 export class AuthController {
@@ -58,13 +61,13 @@ export class AuthController {
         throw new HttpException(res.error, res.error.statusCode)
       }
 
-      reply.setCookie('refreshToken', res.data.refreshToken, {
+      reply.setCookie('refreshToken', res.payload.refreshToken, {
         httpOnly: true,
         maxAge: ms(
           this.configService.getOrThrow<string>('JWT_REFRESH_EXPIRES_IN'),
         ),
       })
-      return res.data
+      return res.payload
     } catch (e) {
       console.error(e)
       if (e instanceof HttpException) {
@@ -91,13 +94,13 @@ export class AuthController {
         throw new HttpException(res.error, res.error.statusCode)
       }
 
-      reply.setCookie('refreshToken', res.data.refreshToken, {
+      reply.setCookie('refreshToken', res.payload.refreshToken, {
         httpOnly: true,
         maxAge: ms(
           this.configService.getOrThrow<string>('JWT_REFRESH_EXPIRES_IN'),
         ),
       })
-      return res.data
+      return res.payload
     } catch (e) {
       console.error(e)
       if (e instanceof HttpException) {
@@ -128,7 +131,26 @@ export class AuthController {
       }
 
       reply.clearCookie('refreshToken')
-      return res.data
+      return res.payload
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  @Cron(CronExpression.EVERY_DAY_AT_1AM)
+  // @Get('/removeDeadTokens')
+  async removeDeadTokens() {
+    try {
+      const res =
+        await this.amqpConnection.request<AccountRemoveDeadTokensResponse>({
+          exchange: this.configService.getOrThrow('AMQP_EXCHANGE'),
+          routingKey: accountRemoveDeadTokensKey,
+        })
+
+      if (isError(res)) {
+        return console.error('removeDeadTokens', res.error)
+      }
+      console.log('removeDeadTokens', res.payload)
     } catch (e) {
       console.error(e)
     }
@@ -154,7 +176,7 @@ export class AuthController {
       }
 
       reply.clearCookie('refreshToken')
-      return res.data
+      return res.payload
     } catch (e) {
       console.error(e)
     }
@@ -181,13 +203,13 @@ export class AuthController {
         throw new HttpException(res.error, res.error.statusCode)
       }
 
-      reply.setCookie('refreshToken', res.data.refreshToken, {
+      reply.setCookie('refreshToken', res.payload.refreshToken, {
         httpOnly: true,
         maxAge: ms(
           this.configService.getOrThrow<string>('JWT_REFRESH_EXPIRES_IN'),
         ),
       })
-      return res.data
+      return res.payload
     } catch (e) {
       console.error(e)
       if (e instanceof HttpException) {

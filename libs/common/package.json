@@ -9,6 +9,7 @@
     "build": "tsup src/main.ts --target esnext --format esm,cjs --dts",
     "dev": "tsup src/main.ts --target esnext --silent --format esm,cjs --watch --dts",
     "lint": "npm run lint:prettier && npm run lint:ts && npm run lint:eslint",
+    "lint:fix": "npm run lint:prettier:fix && npm run lint:eslint:fix",
     "lint:eslint": "eslint ./src",
     "lint:ts": "tsc --noEmit",
     "lint:eslint:fix": "eslint --fix ./src",
