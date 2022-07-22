@@ -22,6 +22,10 @@ export class UserEntity implements IUser {
     this.bio = user.bio
   }
 
+  updateProfile(userProfile: IUserProfile): UserEntity {
+    return new UserEntity({ ...this, ...userProfile })
+  }
+
   getUserProfile(): IUserProfile {
     return {
       userId: this.userId,

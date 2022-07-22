@@ -3,8 +3,8 @@ POST {{host}}/auth/register
 Content-Type: application/json
 
 {
-  "email": "test@mail.ru",
-  "password": "awdawdawdawdawd_awdawd_awd"
+  "email": "{{email}}",
+  "password": "{{password}}"
 }
 
 ### login
@@ -12,8 +12,8 @@ POST {{host}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "test@mail.ru",
-  "password": "awdawdawdawdawd_awdawd_awd"
+  "email": "{{email}}",
+  "password": "{{password}}"
 }
 
 ### removeDeadTokens

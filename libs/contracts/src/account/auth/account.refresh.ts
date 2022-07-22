@@ -6,7 +6,7 @@ import { ResponseSuccess } from '../../common/response/response-success'
 
 export const accountRefreshKey = 'account.refresh.command'
 
-export class UserInToken implements IUserInToken {
+export class UserInTokenDot implements IUserInToken {
   @IsString()
   userId: string
 }
@@ -17,8 +17,8 @@ export class AccountRefreshRequest {
 
   @IsDefined()
   @ValidateNested({ each: true })
-  @Type(() => UserInToken)
-  user: UserInToken
+  @Type(() => UserInTokenDot)
+  user: IUserInToken
 }
 
 class AccountRefreshResponseSuccess extends ResponseSuccess {

@@ -1,2 +1,18 @@
-### getUser
-GET {{host}}/53713f0c-d6fd-4a57-b078-268bfe9d9759
+### getUserProfile
+GET {{host}}/user
+Cookie: accessToken={{accessToken}}
+
+### updateUserProfile
+POST {{host}}/user
+Content-Type: application/json
+Cookie: accessToken={{accessToken}}
+
+{
+  "userId": "{{userId}}",
+  "email": "{{email}}",
+  "isActive": true,
+  "firstName": "art",
+  "lastName": "art",
+  "nickname": "123",
+  "bio": "awd"
+}

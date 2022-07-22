@@ -13,4 +13,12 @@ export class UserService {
     const userEntity = new UserEntity(user)
     return userEntity.getUserProfile()
   }
+
+  async updateUserProfile(userProfile: IUserProfile): Promise<IUserProfile> {
+    const user = await this.userRepository.findUserById(userProfile.userId)
+    if (!user) throw new BadRequestException('Пользователь не найден')
+    const userEntity = new UserEntity(user).updateProfile(userProfile)
+    await this.userRepository.updateUser(userEntity)
+    return userEntity.getUserProfile()
+  }
 }

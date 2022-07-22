@@ -27,6 +27,21 @@ declare class AccountGetUserProfileResponseSuccess extends ResponseSuccess {
 }
 declare type AccountGetUserProfileResponse = AccountGetUserProfileResponseSuccess | ResponseError;
 
+declare const accountUpdateUserProfileTopic = "account.update-user-profile.query";
+declare class AccountUpdateUserProfileRequest implements IUserProfile {
+    userId: string;
+    email: string;
+    isActive: boolean;
+    firstName: string | null;
+    lastName: string | null;
+    nickname: string | null;
+    bio: string | null;
+}
+declare class AccountUpdateUserProfileResponseSuccess extends ResponseSuccess {
+    payload: IUserProfile;
+}
+declare type AccountUpdateUserProfileResponse = AccountUpdateUserProfileResponseSuccess | ResponseError;
+
 declare const accountRegisterKey = "account.register.command";
 declare class AccountRegisterRequest {
     email: string;
@@ -57,12 +72,12 @@ declare class AccountLogoutResponseSuccess extends ResponseSuccess {
 declare type AccountLogoutResponse = AccountLogoutResponseSuccess | ResponseError;
 
 declare const accountRefreshKey = "account.refresh.command";
-declare class UserInToken implements IUserInToken {
+declare class UserInTokenDot implements IUserInToken {
     userId: string;
 }
 declare class AccountRefreshRequest {
     refreshToken: string;
-    user: UserInToken;
+    user: IUserInToken;
 }
 declare class AccountRefreshResponseSuccess extends ResponseSuccess {
     payload: ITokens;
@@ -86,4 +101,4 @@ declare class AccountRemoveDeadTokensResponseSuccess extends ResponseSuccess {
 }
 declare type AccountRemoveDeadTokensResponse = AccountRemoveDeadTokensResponseSuccess | ResponseError;
 
-export { AccountGetUserProfileRequest, AccountGetUserProfileResponse, AccountLoginRequest, AccountLoginResponse, AccountLogoutAllRequest, AccountLogoutAllResponse, AccountLogoutRequest, AccountLogoutResponse, AccountRefreshRequest, AccountRefreshResponse, AccountRegisterRequest, AccountRegisterResponse, AccountRemoveDeadTokensRequest, AccountRemoveDeadTokensResponse, ResponseError, ResponseStatuses, ResponseSuccess, UserInToken, accountGetUserProfileTopic, accountLoginKey, accountLogoutAllKey, accountLogoutKey, accountRefreshKey, accountRegisterKey, accountRemoveDeadTokensKey };
+export { AccountGetUserProfileRequest, AccountGetUserProfileResponse, AccountLoginRequest, AccountLoginResponse, AccountLogoutAllRequest, AccountLogoutAllResponse, AccountLogoutRequest, AccountLogoutResponse, AccountRefreshRequest, AccountRefreshResponse, AccountRegisterRequest, AccountRegisterResponse, AccountRemoveDeadTokensRequest, AccountRemoveDeadTokensResponse, AccountUpdateUserProfileRequest, AccountUpdateUserProfileResponse, ResponseError, ResponseStatuses, ResponseSuccess, UserInTokenDot, accountGetUserProfileTopic, accountLoginKey, accountLogoutAllKey, accountLogoutKey, accountRefreshKey, accountRegisterKey, accountRemoveDeadTokensKey, accountUpdateUserProfileTopic };

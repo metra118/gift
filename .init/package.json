@@ -4,29 +4,31 @@
   "version": "1.0.0",
   "scripts": {
     "start": "NODE_OPTIONS='--enable-source-maps' node ./dist/main.js",
-    "build": "builder",
-    "dev": "nodemon --exec 'node -r esbuild-register ./src/main.ts' -e .ts",
+    "build": "tsc --build",
+    "dev": "nodemon --exec 'ts-node --transpileOnly ./src/main.ts' -e .ts",
     "lint": "npm run lint:prettier && npm run lint:ts && npm run lint:eslint",
     "lint:fix": "npm run lint:prettier:fix && npm run lint:eslint:fix",
     "lint:eslint": "eslint ./src",
     "lint:eslint:fix": "eslint --fix ./src",
     "lint:prettier": "prettier --check ./src",
-    "lint:prettier:fix": "prettier --write ./src"
-    "lint:ts": "tsc --noEmit",
+    "lint:prettier:fix": "prettier --write ./src",
+    "lint:ts": "tsc --noEmit"
   },
   "dependencies": {
+    "@golevelup/nestjs-rabbitmq": "^2.4.1",
     "@nestjs/common": "^9.0.1",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.1",
+    "@prisma/client": "^4.1.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
-    "nestjs-rmq": "^2.7.2",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5"
   },
   "devDependencies": {
     "@gift/builder": "*",
     "@gift/eslint-config": "*",
-    "@gift/tsconfig": "*"
+    "@gift/tsconfig": "*",
+    "prisma": "^4.1.0"
   }
 }

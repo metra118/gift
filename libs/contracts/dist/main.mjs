@@ -34,6 +34,44 @@ __decorateClass([
   IsString()
 ], AccountGetUserProfileRequest.prototype, "userId", 2);
 
+// src/account/user/account.update-user-profile.ts
+import { IsBoolean, IsOptional, IsString as IsString2 } from "class-validator";
+var accountUpdateUserProfileTopic = "account.update-user-profile.query";
+var AccountUpdateUserProfileRequest = class {
+  userId;
+  email;
+  isActive;
+  firstName;
+  lastName;
+  nickname;
+  bio;
+};
+__decorateClass([
+  IsString2()
+], AccountUpdateUserProfileRequest.prototype, "userId", 2);
+__decorateClass([
+  IsString2()
+], AccountUpdateUserProfileRequest.prototype, "email", 2);
+__decorateClass([
+  IsBoolean()
+], AccountUpdateUserProfileRequest.prototype, "isActive", 2);
+__decorateClass([
+  IsOptional(),
+  IsString2()
+], AccountUpdateUserProfileRequest.prototype, "firstName", 2);
+__decorateClass([
+  IsOptional(),
+  IsString2()
+], AccountUpdateUserProfileRequest.prototype, "lastName", 2);
+__decorateClass([
+  IsOptional(),
+  IsString2()
+], AccountUpdateUserProfileRequest.prototype, "nickname", 2);
+__decorateClass([
+  IsOptional(),
+  IsString2()
+], AccountUpdateUserProfileRequest.prototype, "bio", 2);
+
 // src/account/auth/account.register.ts
 import { IsDefined, IsEmail, MaxLength, MinLength } from "class-validator";
 var accountRegisterKey = "account.register.command";
@@ -52,7 +90,7 @@ __decorateClass([
 ], AccountRegisterRequest.prototype, "password", 2);
 
 // src/account/auth/account.login.ts
-import { IsEmail as IsEmail2, IsString as IsString2 } from "class-validator";
+import { IsEmail as IsEmail2, IsString as IsString3 } from "class-validator";
 var accountLoginKey = "account.login.command";
 var AccountLoginRequest = class {
   email;
@@ -62,7 +100,7 @@ __decorateClass([
   IsEmail2()
 ], AccountLoginRequest.prototype, "email", 2);
 __decorateClass([
-  IsString2()
+  IsString3()
 ], AccountLoginRequest.prototype, "password", 2);
 
 // src/account/auth/account.logout.ts
@@ -76,26 +114,26 @@ __decorateClass([
 ], AccountLogoutRequest.prototype, "refreshToken", 2);
 
 // src/account/auth/account.refresh.ts
-import { IsDefined as IsDefined3, IsString as IsString3, ValidateNested } from "class-validator";
+import { IsDefined as IsDefined3, IsString as IsString4, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
 var accountRefreshKey = "account.refresh.command";
-var UserInToken = class {
+var UserInTokenDot = class {
   userId;
 };
 __decorateClass([
-  IsString3()
-], UserInToken.prototype, "userId", 2);
+  IsString4()
+], UserInTokenDot.prototype, "userId", 2);
 var AccountRefreshRequest = class {
   refreshToken;
   user;
 };
 __decorateClass([
-  IsString3()
+  IsString4()
 ], AccountRefreshRequest.prototype, "refreshToken", 2);
 __decorateClass([
   IsDefined3(),
   ValidateNested({ each: true }),
-  Type(() => UserInToken)
+  Type(() => UserInTokenDot)
 ], AccountRefreshRequest.prototype, "user", 2);
 
 // src/account/auth/account.logout-all.ts
@@ -126,15 +164,17 @@ export {
   AccountRefreshRequest,
   AccountRegisterRequest,
   AccountRemoveDeadTokensRequest,
+  AccountUpdateUserProfileRequest,
   ResponseError,
   ResponseStatuses,
   ResponseSuccess,
-  UserInToken,
+  UserInTokenDot,
   accountGetUserProfileTopic,
   accountLoginKey,
   accountLogoutAllKey,
   accountLogoutKey,
   accountRefreshKey,
   accountRegisterKey,
-  accountRemoveDeadTokensKey
+  accountRemoveDeadTokensKey,
+  accountUpdateUserProfileTopic
 };

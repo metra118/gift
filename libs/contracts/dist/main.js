@@ -36,17 +36,19 @@ __export(main_exports, {
   AccountRefreshRequest: () => AccountRefreshRequest,
   AccountRegisterRequest: () => AccountRegisterRequest,
   AccountRemoveDeadTokensRequest: () => AccountRemoveDeadTokensRequest,
+  AccountUpdateUserProfileRequest: () => AccountUpdateUserProfileRequest,
   ResponseError: () => ResponseError,
   ResponseStatuses: () => ResponseStatuses,
   ResponseSuccess: () => ResponseSuccess,
-  UserInToken: () => UserInToken,
+  UserInTokenDot: () => UserInTokenDot,
   accountGetUserProfileTopic: () => accountGetUserProfileTopic,
   accountLoginKey: () => accountLoginKey,
   accountLogoutAllKey: () => accountLogoutAllKey,
   accountLogoutKey: () => accountLogoutKey,
   accountRefreshKey: () => accountRefreshKey,
   accountRegisterKey: () => accountRegisterKey,
-  accountRemoveDeadTokensKey: () => accountRemoveDeadTokensKey
+  accountRemoveDeadTokensKey: () => accountRemoveDeadTokensKey,
+  accountUpdateUserProfileTopic: () => accountUpdateUserProfileTopic
 });
 module.exports = __toCommonJS(main_exports);
 
@@ -74,78 +76,116 @@ __decorateClass([
   (0, import_class_validator.IsString)()
 ], AccountGetUserProfileRequest.prototype, "userId", 2);
 
-// src/account/auth/account.register.ts
+// src/account/user/account.update-user-profile.ts
 var import_class_validator2 = require("class-validator");
+var accountUpdateUserProfileTopic = "account.update-user-profile.query";
+var AccountUpdateUserProfileRequest = class {
+  userId;
+  email;
+  isActive;
+  firstName;
+  lastName;
+  nickname;
+  bio;
+};
+__decorateClass([
+  (0, import_class_validator2.IsString)()
+], AccountUpdateUserProfileRequest.prototype, "userId", 2);
+__decorateClass([
+  (0, import_class_validator2.IsString)()
+], AccountUpdateUserProfileRequest.prototype, "email", 2);
+__decorateClass([
+  (0, import_class_validator2.IsBoolean)()
+], AccountUpdateUserProfileRequest.prototype, "isActive", 2);
+__decorateClass([
+  (0, import_class_validator2.IsOptional)(),
+  (0, import_class_validator2.IsString)()
+], AccountUpdateUserProfileRequest.prototype, "firstName", 2);
+__decorateClass([
+  (0, import_class_validator2.IsOptional)(),
+  (0, import_class_validator2.IsString)()
+], AccountUpdateUserProfileRequest.prototype, "lastName", 2);
+__decorateClass([
+  (0, import_class_validator2.IsOptional)(),
+  (0, import_class_validator2.IsString)()
+], AccountUpdateUserProfileRequest.prototype, "nickname", 2);
+__decorateClass([
+  (0, import_class_validator2.IsOptional)(),
+  (0, import_class_validator2.IsString)()
+], AccountUpdateUserProfileRequest.prototype, "bio", 2);
+
+// src/account/auth/account.register.ts
+var import_class_validator3 = require("class-validator");
 var accountRegisterKey = "account.register.command";
 var AccountRegisterRequest = class {
   email;
   password;
 };
 __decorateClass([
-  (0, import_class_validator2.IsEmail)(),
-  (0, import_class_validator2.MaxLength)(320)
+  (0, import_class_validator3.IsEmail)(),
+  (0, import_class_validator3.MaxLength)(320)
 ], AccountRegisterRequest.prototype, "email", 2);
 __decorateClass([
-  (0, import_class_validator2.IsDefined)(),
-  (0, import_class_validator2.MinLength)(8),
-  (0, import_class_validator2.MaxLength)(32)
+  (0, import_class_validator3.IsDefined)(),
+  (0, import_class_validator3.MinLength)(8),
+  (0, import_class_validator3.MaxLength)(32)
 ], AccountRegisterRequest.prototype, "password", 2);
 
 // src/account/auth/account.login.ts
-var import_class_validator3 = require("class-validator");
+var import_class_validator4 = require("class-validator");
 var accountLoginKey = "account.login.command";
 var AccountLoginRequest = class {
   email;
   password;
 };
 __decorateClass([
-  (0, import_class_validator3.IsEmail)()
+  (0, import_class_validator4.IsEmail)()
 ], AccountLoginRequest.prototype, "email", 2);
 __decorateClass([
-  (0, import_class_validator3.IsString)()
+  (0, import_class_validator4.IsString)()
 ], AccountLoginRequest.prototype, "password", 2);
 
 // src/account/auth/account.logout.ts
-var import_class_validator4 = require("class-validator");
+var import_class_validator5 = require("class-validator");
 var accountLogoutKey = "account.logout.command";
 var AccountLogoutRequest = class {
   refreshToken;
 };
 __decorateClass([
-  (0, import_class_validator4.IsDefined)()
+  (0, import_class_validator5.IsDefined)()
 ], AccountLogoutRequest.prototype, "refreshToken", 2);
 
 // src/account/auth/account.refresh.ts
-var import_class_validator5 = require("class-validator");
+var import_class_validator6 = require("class-validator");
 var import_class_transformer = require("class-transformer");
 var accountRefreshKey = "account.refresh.command";
-var UserInToken = class {
+var UserInTokenDot = class {
   userId;
 };
 __decorateClass([
-  (0, import_class_validator5.IsString)()
-], UserInToken.prototype, "userId", 2);
+  (0, import_class_validator6.IsString)()
+], UserInTokenDot.prototype, "userId", 2);
 var AccountRefreshRequest = class {
   refreshToken;
   user;
 };
 __decorateClass([
-  (0, import_class_validator5.IsString)()
+  (0, import_class_validator6.IsString)()
 ], AccountRefreshRequest.prototype, "refreshToken", 2);
 __decorateClass([
-  (0, import_class_validator5.IsDefined)(),
-  (0, import_class_validator5.ValidateNested)({ each: true }),
-  (0, import_class_transformer.Type)(() => UserInToken)
+  (0, import_class_validator6.IsDefined)(),
+  (0, import_class_validator6.ValidateNested)({ each: true }),
+  (0, import_class_transformer.Type)(() => UserInTokenDot)
 ], AccountRefreshRequest.prototype, "user", 2);
 
 // src/account/auth/account.logout-all.ts
-var import_class_validator6 = require("class-validator");
+var import_class_validator7 = require("class-validator");
 var accountLogoutAllKey = "account.logouta-all.command";
 var AccountLogoutAllRequest = class {
   userId;
 };
 __decorateClass([
-  (0, import_class_validator6.IsDefined)()
+  (0, import_class_validator7.IsDefined)()
 ], AccountLogoutAllRequest.prototype, "userId", 2);
 
 // src/account/auth/account.remove-dead-tokens.ts
@@ -167,15 +207,17 @@ var ResponseError = class {
   AccountRefreshRequest,
   AccountRegisterRequest,
   AccountRemoveDeadTokensRequest,
+  AccountUpdateUserProfileRequest,
   ResponseError,
   ResponseStatuses,
   ResponseSuccess,
-  UserInToken,
+  UserInTokenDot,
   accountGetUserProfileTopic,
   accountLoginKey,
   accountLogoutAllKey,
   accountLogoutKey,
   accountRefreshKey,
   accountRegisterKey,
-  accountRemoveDeadTokensKey
+  accountRemoveDeadTokensKey,
+  accountUpdateUserProfileTopic
 });

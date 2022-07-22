@@ -754,6 +754,24 @@ function IsDefined(validationOptions) {
   }, validationOptions);
 }
 
+// ../../node_modules/class-validator/esm5/decorator/common/IsOptional.js
+function IsOptional(validationOptions) {
+  return function(object, propertyName) {
+    var args = {
+      type: ValidationTypes.CONDITIONAL_VALIDATION,
+      target: object.constructor,
+      propertyName,
+      constraints: [
+        function(object2, value) {
+          return object2[propertyName] !== null && object2[propertyName] !== void 0;
+        }
+      ],
+      validationOptions
+    };
+    getMetadataStorage().addValidationMetadata(new ValidationMetadata(args));
+  };
+}
+
 // ../../node_modules/class-validator/esm5/decorator/common/ValidateNested.js
 var __assign = function() {
   __assign = Object.assign || function(t) {
@@ -840,6 +858,25 @@ function MinLength(min, validationOptions) {
       },
       defaultMessage: buildMessage(function(eachPrefix) {
         return eachPrefix + "$property must be longer than or equal to $constraint1 characters";
+      }, validationOptions)
+    }
+  }, validationOptions);
+}
+
+// ../../node_modules/class-validator/esm5/decorator/typechecker/IsBoolean.js
+var IS_BOOLEAN = "isBoolean";
+function isBoolean(value) {
+  return value instanceof Boolean || typeof value === "boolean";
+}
+function IsBoolean(validationOptions) {
+  return ValidateBy({
+    name: IS_BOOLEAN,
+    validator: {
+      validate: function(value, args) {
+        return isBoolean(value);
+      },
+      defaultMessage: buildMessage(function(eachPrefix) {
+        return eachPrefix + "$property must be a boolean value";
       }, validationOptions)
     }
   }, validationOptions);
@@ -1109,6 +1146,40 @@ var AccountGetUserProfileRequest = class {
 __decorateClass([
   IsString()
 ], AccountGetUserProfileRequest.prototype, "userId", 2);
+var AccountUpdateUserProfileRequest = class {
+  userId;
+  email;
+  isActive;
+  firstName;
+  lastName;
+  nickname;
+  bio;
+};
+__decorateClass([
+  IsString()
+], AccountUpdateUserProfileRequest.prototype, "userId", 2);
+__decorateClass([
+  IsString()
+], AccountUpdateUserProfileRequest.prototype, "email", 2);
+__decorateClass([
+  IsBoolean()
+], AccountUpdateUserProfileRequest.prototype, "isActive", 2);
+__decorateClass([
+  IsOptional(),
+  IsString()
+], AccountUpdateUserProfileRequest.prototype, "firstName", 2);
+__decorateClass([
+  IsOptional(),
+  IsString()
+], AccountUpdateUserProfileRequest.prototype, "lastName", 2);
+__decorateClass([
+  IsOptional(),
+  IsString()
+], AccountUpdateUserProfileRequest.prototype, "nickname", 2);
+__decorateClass([
+  IsOptional(),
+  IsString()
+], AccountUpdateUserProfileRequest.prototype, "bio", 2);
 var AccountRegisterRequest = class {
   email;
   password;
@@ -1138,12 +1209,12 @@ var AccountLogoutRequest = class {
 __decorateClass([
   IsDefined()
 ], AccountLogoutRequest.prototype, "refreshToken", 2);
-var UserInToken = class {
+var UserInTokenDot = class {
   userId;
 };
 __decorateClass([
   IsString()
-], UserInToken.prototype, "userId", 2);
+], UserInTokenDot.prototype, "userId", 2);
 var AccountRefreshRequest = class {
   refreshToken;
   user;
@@ -1154,7 +1225,7 @@ __decorateClass([
 __decorateClass([
   IsDefined(),
   ValidateNested({ each: true }),
-  Type(() => UserInToken)
+  Type(() => UserInTokenDot)
 ], AccountRefreshRequest.prototype, "user", 2);
 var AccountLogoutAllRequest = class {
   userId;
