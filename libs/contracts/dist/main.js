@@ -78,7 +78,7 @@ __decorateClass([
 
 // src/account/user/account.update-user-profile.ts
 var import_class_validator2 = require("class-validator");
-var accountUpdateUserProfileTopic = "account.update-user-profile.query";
+var accountUpdateUserProfileTopic = "account.update-user-profile.command";
 var AccountUpdateUserProfileRequest = class {
   userId;
   email;

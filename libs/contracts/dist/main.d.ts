@@ -27,7 +27,7 @@ declare class AccountGetUserProfileResponseSuccess extends ResponseSuccess {
 }
 declare type AccountGetUserProfileResponse = AccountGetUserProfileResponseSuccess | ResponseError;
 
-declare const accountUpdateUserProfileTopic = "account.update-user-profile.query";
+declare const accountUpdateUserProfileTopic = "account.update-user-profile.command";
 declare class AccountUpdateUserProfileRequest implements IUserProfile {
     userId: string;
     email: string;

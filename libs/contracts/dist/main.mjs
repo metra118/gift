@@ -36,7 +36,7 @@ __decorateClass([
 
 // src/account/user/account.update-user-profile.ts
 import { IsBoolean, IsOptional, IsString as IsString2 } from "class-validator";
-var accountUpdateUserProfileTopic = "account.update-user-profile.query";
+var accountUpdateUserProfileTopic = "account.update-user-profile.command";
 var AccountUpdateUserProfileRequest = class {
   userId;
   email;
