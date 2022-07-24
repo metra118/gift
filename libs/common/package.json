@@ -20,7 +20,7 @@
     "@gift/eslint-config": "*",
     "@gift/tsconfig": "*",
     "@gift/builder": "*",
-    "@nestjs/common": "^9.0.1"
+    "@nestjs/common": "^9.0.5"
   },
   "devDependencies": {
     "@types/amqplib": "^0.8.2"
