@@ -6,7 +6,10 @@
     "share"
   ],
   "dependencies": {
-    "typescript": "^4.7.4",
-    "@types/node": "^18.0.3"
+    "@types/node": "^18.0.3",
+    "typescript": "^4.7.4"
+  },
+  "devDependencies": {
+    "tsconfig-paths": "^4.0.0"
   }
 }

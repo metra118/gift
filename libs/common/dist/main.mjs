@@ -371,6 +371,36 @@ var require_isEmail = __commonJS({
   }
 });
 
+// ../../node_modules/validator/lib/isUUID.js
+var require_isUUID = __commonJS({
+  "../../node_modules/validator/lib/isUUID.js"(exports, module) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = isUUID2;
+    var _assertString = _interopRequireDefault(require_assertString());
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : { default: obj };
+    }
+    var uuid = {
+      1: /^[0-9A-F]{8}-[0-9A-F]{4}-1[0-9A-F]{3}-[0-9A-F]{4}-[0-9A-F]{12}$/i,
+      2: /^[0-9A-F]{8}-[0-9A-F]{4}-2[0-9A-F]{3}-[0-9A-F]{4}-[0-9A-F]{12}$/i,
+      3: /^[0-9A-F]{8}-[0-9A-F]{4}-3[0-9A-F]{3}-[0-9A-F]{4}-[0-9A-F]{12}$/i,
+      4: /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i,
+      5: /^[0-9A-F]{8}-[0-9A-F]{4}-5[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i,
+      all: /^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/i
+    };
+    function isUUID2(str, version) {
+      (0, _assertString.default)(str);
+      var pattern = uuid[![void 0, null].includes(version) ? version : "all"];
+      return !!pattern && pattern.test(str);
+    }
+    module.exports = exports.default;
+    module.exports.default = exports.default;
+  }
+});
+
 // ../../node_modules/validator/lib/isLength.js
 var require_isLength = __commonJS({
   "../../node_modules/validator/lib/isLength.js"(exports, module) {
@@ -807,6 +837,27 @@ function IsEmail(options, validationOptions) {
   }, validationOptions);
 }
 
+// ../../node_modules/class-validator/esm5/decorator/string/IsUUID.js
+var import_isUUID = __toESM(require_isUUID());
+var IS_UUID = "isUuid";
+function isUUID(value, version) {
+  return typeof value === "string" && (0, import_isUUID.default)(value, version);
+}
+function IsUUID(version, validationOptions) {
+  return ValidateBy({
+    name: IS_UUID,
+    constraints: [version],
+    validator: {
+      validate: function(value, args) {
+        return isUUID(value, args.constraints[0]);
+      },
+      defaultMessage: buildMessage(function(eachPrefix) {
+        return eachPrefix + "$property must be a UUID";
+      }, validationOptions)
+    }
+  }, validationOptions);
+}
+
 // ../../node_modules/class-validator/esm5/decorator/string/MaxLength.js
 var import_isLength = __toESM(require_isLength());
 var MAX_LENGTH = "maxLength";
@@ -1235,6 +1286,26 @@ __decorateClass([
   MaxLength(280),
   IsString()
 ], GiftCreateGiftRequest.prototype, "text", 2);
+var GiftUpdateGiftRequest = class {
+  giftId;
+  userId;
+  title;
+  text;
+};
+__decorateClass([
+  IsUUID()
+], GiftUpdateGiftRequest.prototype, "giftId", 2);
+__decorateClass([
+  IsString()
+], GiftUpdateGiftRequest.prototype, "userId", 2);
+__decorateClass([
+  MaxLength(12),
+  IsString()
+], GiftUpdateGiftRequest.prototype, "title", 2);
+__decorateClass([
+  MaxLength(280),
+  IsString()
+], GiftUpdateGiftRequest.prototype, "text", 2);
 
 // src/utils/is-error-responce.type-guard.ts
 var isError = (res) => {

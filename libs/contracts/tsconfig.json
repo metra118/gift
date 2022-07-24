@@ -1,8 +1,9 @@
 {
   "extends": "@gift/tsconfig/share/base.json",
+  "include": ["./src/**/*"],
   "compilerOptions": {
     "outDir": "./dist",
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "declaration": true
   }
 }

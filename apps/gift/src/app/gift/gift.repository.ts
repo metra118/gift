@@ -5,7 +5,7 @@ import {
   IPagindation,
   ISelectGiftBy,
 } from '@gift/interfaces'
-import { Gift, Prisma } from '../../../prisma/client'
+import { Gift, Prisma } from 'prisma/client'
 import { PrismaService } from '../prisma/prisma.service'
 
 @Injectable()

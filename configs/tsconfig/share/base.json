@@ -1,4 +1,11 @@
 {
+  "ts-node": {
+    "transpileOnly": true,
+    "require": ["tsconfig-paths/register"],
+    "compilerOptions": {
+      "resolveJsonModule": true
+    }
+  },
   "compilerOptions": {
     "target": "ESNext",
     "module": "NodeNext",
