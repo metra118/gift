@@ -1,4 +1,4 @@
-import { IUserProfile, ITokens, ILogout, IUserInToken, IsOk, ICreateGift, IGift } from '@gift/interfaces';
+import { IUserProfile, ITokens, ILogout, IUserInToken, IsOk, ICreateGift, IGift, IPagindation, IGetGiftBy } from '@gift/interfaces';
 
 declare enum ResponseStatuses {
     error = "error",
@@ -124,4 +124,16 @@ declare class GiftUpdateGiftResponseSuccess extends ResponseSuccess {
 }
 declare type GiftUpdateGiftResponse = GiftUpdateGiftResponseSuccess | ResponseError;
 
-export { AccountGetUserProfileRequest, AccountGetUserProfileResponse, AccountLoginRequest, AccountLoginResponse, AccountLogoutAllRequest, AccountLogoutAllResponse, AccountLogoutRequest, AccountLogoutResponse, AccountRefreshRequest, AccountRefreshResponse, AccountRegisterRequest, AccountRegisterResponse, AccountRemoveDeadTokensRequest, AccountRemoveDeadTokensResponse, AccountUpdateUserProfileRequest, AccountUpdateUserProfileResponse, GiftCreateGiftRequest, GiftCreateGiftResponse, GiftUpdateGiftRequest, GiftUpdateGiftResponse, ResponseError, ResponseStatuses, ResponseSuccess, UserInTokenDot, accountGetUserProfileKey, accountLoginKey, accountLogoutAllKey, accountLogoutKey, accountRefreshKey, accountRegisterKey, accountRemoveDeadTokensKey, accountUpdateUserProfileKey, giftCreateGiftKey, giftUpdateGiftKey };
+declare const giftGetGiftsKey = "gift.get-gifts.command";
+declare class GiftGetGiftsRequest implements IPagindation, IGetGiftBy {
+    giftId?: string;
+    userId?: string;
+    skip?: number;
+    take?: number;
+}
+declare class GiftGetGiftsResponseSuccess extends ResponseSuccess {
+    payload: IGift[];
+}
+declare type GiftGetGiftsResponse = GiftGetGiftsResponseSuccess | ResponseError;
+
+export { AccountGetUserProfileRequest, AccountGetUserProfileResponse, AccountLoginRequest, AccountLoginResponse, AccountLogoutAllRequest, AccountLogoutAllResponse, AccountLogoutRequest, AccountLogoutResponse, AccountRefreshRequest, AccountRefreshResponse, AccountRegisterRequest, AccountRegisterResponse, AccountRemoveDeadTokensRequest, AccountRemoveDeadTokensResponse, AccountUpdateUserProfileRequest, AccountUpdateUserProfileResponse, GiftCreateGiftRequest, GiftCreateGiftResponse, GiftGetGiftsRequest, GiftGetGiftsResponse, GiftUpdateGiftRequest, GiftUpdateGiftResponse, ResponseError, ResponseStatuses, ResponseSuccess, UserInTokenDot, accountGetUserProfileKey, accountLoginKey, accountLogoutAllKey, accountLogoutKey, accountRefreshKey, accountRegisterKey, accountRemoveDeadTokensKey, accountUpdateUserProfileKey, giftCreateGiftKey, giftGetGiftsKey, giftUpdateGiftKey };

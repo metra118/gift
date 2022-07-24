@@ -4,6 +4,9 @@ import {
   giftCreateGiftKey,
   GiftCreateGiftRequest,
   GiftCreateGiftResponse,
+  giftGetGiftsKey,
+  GiftGetGiftsRequest,
+  GiftGetGiftsResponse,
   giftUpdateGiftKey,
   GiftUpdateGiftRequest,
   GiftUpdateGiftResponse,
@@ -44,6 +47,23 @@ export class GiftController {
     @RabbitPayload() payloadReq: GiftUpdateGiftRequest,
   ): Promise<GiftUpdateGiftResponse> {
     const payload = await this.giftService.update(payloadReq)
+    return {
+      payload,
+      status: ResponseStatuses.success,
+    }
+  }
+
+  @UsePipes(ValidationPipe)
+  @RabbitRPC({
+    routingKey: giftGetGiftsKey,
+    queue: giftGetGiftsKey,
+    exchange: process.env.AMQP_EXCHANGE,
+    errorHandler: replyErrorHandler,
+  })
+  async get(
+    @RabbitPayload() payloadReq: GiftGetGiftsRequest,
+  ): Promise<GiftGetGiftsResponse> {
+    const payload = await this.giftService.get(payloadReq)
     return {
       payload,
       status: ResponseStatuses.success,

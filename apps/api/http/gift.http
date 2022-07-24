@@ -4,8 +4,8 @@ Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
 {
-  "text": "34",
-  "title": "123",
+  "text": "333333",
+  "title": "333333333",
   "userId": "{{userId}}"
 }
 
@@ -20,3 +20,7 @@ Authorization: Bearer {{accessToken}}
   "title": "aw123d",
   "userId": "{{userId}}"
 }
+
+### getGift
+GET {{host}}/gifts?userId={{userId}}&skip=2
+Authorization: Bearer {{accessToken}}

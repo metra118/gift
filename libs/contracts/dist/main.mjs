@@ -195,6 +195,35 @@ __decorateClass([
   IsString6()
 ], GiftUpdateGiftRequest.prototype, "text", 2);
 
+// src/gift/gift.get-gifts.ts
+import { IsNumber, IsOptional as IsOptional2, IsString as IsString7 } from "class-validator";
+import { Type as Type2 } from "class-transformer";
+var giftGetGiftsKey = "gift.get-gifts.command";
+var GiftGetGiftsRequest = class {
+  giftId;
+  userId;
+  skip;
+  take;
+};
+__decorateClass([
+  IsOptional2(),
+  IsString7()
+], GiftGetGiftsRequest.prototype, "giftId", 2);
+__decorateClass([
+  IsOptional2(),
+  IsString7()
+], GiftGetGiftsRequest.prototype, "userId", 2);
+__decorateClass([
+  Type2(() => Number),
+  IsOptional2(),
+  IsNumber()
+], GiftGetGiftsRequest.prototype, "skip", 2);
+__decorateClass([
+  Type2(() => Number),
+  IsOptional2(),
+  IsNumber()
+], GiftGetGiftsRequest.prototype, "take", 2);
+
 // src/common/response/response-error.ts
 var ResponseError = class {
   status = "error" /* error */;
@@ -210,6 +239,7 @@ export {
   AccountRemoveDeadTokensRequest,
   AccountUpdateUserProfileRequest,
   GiftCreateGiftRequest,
+  GiftGetGiftsRequest,
   GiftUpdateGiftRequest,
   ResponseError,
   ResponseStatuses,
@@ -224,5 +254,6 @@ export {
   accountRemoveDeadTokensKey,
   accountUpdateUserProfileKey,
   giftCreateGiftKey,
+  giftGetGiftsKey,
   giftUpdateGiftKey
 };

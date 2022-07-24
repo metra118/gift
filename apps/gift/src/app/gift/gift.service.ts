@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common'
 import { ICreateGift, IGift } from '@gift/interfaces'
 import { GiftRepository } from './gift.repository'
 import { GiftEntity } from './gift.entity'
+import { GiftGetGiftsRequest } from '@gift/contracts'
 
 @Injectable()
 export class GiftService {
@@ -9,6 +10,10 @@ export class GiftService {
 
   async create(gift: ICreateGift): Promise<IGift> {
     return this.giftRepository.create(gift)
+  }
+
+  async get(query: GiftGetGiftsRequest): Promise<IGift[]> {
+    return this.giftRepository.findMany(query)
   }
 
   async update(gift: IGift): Promise<IGift> {

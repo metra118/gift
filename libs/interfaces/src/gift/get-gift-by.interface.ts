@@ -1,4 +1,4 @@
-export interface ISelectGiftBy {
+export interface IGetGiftBy {
   giftId?: string
   userId?: string
 }

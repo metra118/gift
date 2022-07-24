@@ -919,6 +919,50 @@ function IsBoolean(validationOptions) {
   }, validationOptions);
 }
 
+// ../../node_modules/class-validator/esm5/decorator/typechecker/IsNumber.js
+var IS_NUMBER = "isNumber";
+function isNumber(value, options) {
+  if (options === void 0) {
+    options = {};
+  }
+  if (typeof value !== "number") {
+    return false;
+  }
+  if (value === Infinity || value === -Infinity) {
+    return options.allowInfinity;
+  }
+  if (Number.isNaN(value)) {
+    return options.allowNaN;
+  }
+  if (options.maxDecimalPlaces !== void 0) {
+    var decimalPlaces = 0;
+    if (value % 1 !== 0) {
+      decimalPlaces = value.toString().split(".")[1].length;
+    }
+    if (decimalPlaces > options.maxDecimalPlaces) {
+      return false;
+    }
+  }
+  return Number.isFinite(value);
+}
+function IsNumber(options, validationOptions) {
+  if (options === void 0) {
+    options = {};
+  }
+  return ValidateBy({
+    name: IS_NUMBER,
+    constraints: [options],
+    validator: {
+      validate: function(value, args) {
+        return isNumber(value, args.constraints[0]);
+      },
+      defaultMessage: buildMessage(function(eachPrefix) {
+        return eachPrefix + "$property must be a number conforming to the specified constraints";
+      }, validationOptions)
+    }
+  }, validationOptions);
+}
+
 // ../../node_modules/class-validator/esm5/decorator/typechecker/IsString.js
 var IS_STRING = "isString";
 function isString(value) {
@@ -1306,6 +1350,30 @@ __decorateClass([
   MaxLength(280),
   IsString()
 ], GiftUpdateGiftRequest.prototype, "text", 2);
+var GiftGetGiftsRequest = class {
+  giftId;
+  userId;
+  skip;
+  take;
+};
+__decorateClass([
+  IsOptional(),
+  IsString()
+], GiftGetGiftsRequest.prototype, "giftId", 2);
+__decorateClass([
+  IsOptional(),
+  IsString()
+], GiftGetGiftsRequest.prototype, "userId", 2);
+__decorateClass([
+  Type(() => Number),
+  IsOptional(),
+  IsNumber()
+], GiftGetGiftsRequest.prototype, "skip", 2);
+__decorateClass([
+  Type(() => Number),
+  IsOptional(),
+  IsNumber()
+], GiftGetGiftsRequest.prototype, "take", 2);
 
 // src/utils/is-error-responce.type-guard.ts
 var isError = (res) => {

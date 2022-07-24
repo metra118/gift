@@ -2,9 +2,11 @@ import {
   Body,
   Controller,
   ForbiddenException,
+  Get,
   HttpException,
   Patch,
   Post,
+  Query,
   UseGuards,
   ValidationPipe,
 } from '@nestjs/common'
@@ -14,6 +16,9 @@ import {
   giftCreateGiftKey,
   GiftCreateGiftRequest,
   GiftCreateGiftResponse,
+  giftGetGiftsKey,
+  GiftGetGiftsRequest,
+  GiftGetGiftsResponse,
   giftUpdateGiftKey,
   GiftUpdateGiftRequest,
   GiftUpdateGiftResponse,
@@ -60,6 +65,25 @@ export class GiftController {
     const res = await this.amqpConnection.request<GiftUpdateGiftResponse>({
       exchange: this.configService.getOrThrow('AMQP_EXCHANGE'),
       routingKey: giftUpdateGiftKey,
+      payload,
+    })
+
+    if (isError(res)) {
+      throw new HttpException(res.error, res.error.statusCode)
+    }
+
+    return res.payload
+  }
+
+  // @UseGuards(JwtAccessGuard)
+  @Get()
+  async get(
+    @Query(new ValidationPipe({ transform: true }))
+    payload: GiftGetGiftsRequest,
+  ) {
+    const res = await this.amqpConnection.request<GiftGetGiftsResponse>({
+      exchange: this.configService.getOrThrow('AMQP_EXCHANGE'),
+      routingKey: giftGetGiftsKey,
       payload,
     })
 
