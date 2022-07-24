@@ -4,7 +4,7 @@ import {
   ForbiddenException,
   Get,
   HttpException,
-  Post,
+  Patch,
   UseGuards,
   ValidationPipe,
 } from '@nestjs/common'
@@ -47,7 +47,7 @@ export class UserController {
   }
 
   @UseGuards(JwtAccessGuard)
-  @Post()
+  @Patch()
   async updateUserProfile(
     @Body(ValidationPipe) payload: AccountUpdateUserProfileRequest,
     @GetUser() user: IUserInToken,

@@ -3,7 +3,7 @@ GET {{host}}/user
 Cookie: accessToken={{accessToken}}
 
 ### updateUserProfile
-POST {{host}}/user
+PATCH {{host}}/user
 Content-Type: application/json
 Cookie: accessToken={{accessToken}}
 
