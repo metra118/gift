@@ -12,10 +12,10 @@ import { AmqpConnection } from '@golevelup/nestjs-rabbitmq'
 import { ConfigService } from '@nestjs/config'
 import {
   AccountGetUserProfileResponse,
-  accountGetUserProfileTopic,
+  accountGetUserProfileKey,
   AccountUpdateUserProfileRequest,
   AccountUpdateUserProfileResponse,
-  accountUpdateUserProfileTopic,
+  accountUpdateUserProfileKey,
 } from '@gift/contracts'
 import { isError } from '@gift/common'
 import { JwtAccessGuard } from '../guards/jwt-access.guard'
@@ -35,7 +35,7 @@ export class UserController {
     const res =
       await this.amqpConnection.request<AccountGetUserProfileResponse>({
         exchange: this.configService.getOrThrow('AMQP_EXCHANGE'),
-        routingKey: accountGetUserProfileTopic,
+        routingKey: accountGetUserProfileKey,
         payload: user,
       })
 
@@ -56,7 +56,7 @@ export class UserController {
     const res =
       await this.amqpConnection.request<AccountUpdateUserProfileResponse>({
         exchange: this.configService.getOrThrow('AMQP_EXCHANGE'),
-        routingKey: accountUpdateUserProfileTopic,
+        routingKey: accountUpdateUserProfileKey,
         payload,
       })
 

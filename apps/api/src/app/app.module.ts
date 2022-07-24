@@ -7,6 +7,7 @@ import { AuthController } from './controllers/auth.controller'
 import { JwtModule } from '@nestjs/jwt'
 import { getJWTConfig } from './configs/jwt.config'
 import { ScheduleModule } from '@nestjs/schedule'
+import { GiftController } from './controllers/gift.controller'
 
 @Module({
   imports: [
@@ -15,6 +16,6 @@ import { ScheduleModule } from '@nestjs/schedule'
     JwtModule.registerAsync(getJWTConfig()),
     ScheduleModule.forRoot(),
   ],
-  controllers: [UserController, AuthController],
+  controllers: [UserController, AuthController, GiftController],
 })
 export class AppModule {}

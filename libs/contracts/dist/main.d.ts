@@ -1,4 +1,4 @@
-import { IUserProfile, ITokens, ILogout, IUserInToken, IsOk } from '@gift/interfaces';
+import { IUserProfile, ITokens, ILogout, IUserInToken, IsOk, ICreateGift, IGift } from '@gift/interfaces';
 
 declare enum ResponseStatuses {
     error = "error",
@@ -18,7 +18,7 @@ declare class ResponseSuccess {
     status: ResponseStatuses;
 }
 
-declare const accountGetUserProfileTopic = "account.get-user-profile.query";
+declare const accountGetUserProfileKey = "account.get-user-profile.query";
 declare class AccountGetUserProfileRequest {
     userId: string;
 }
@@ -27,7 +27,7 @@ declare class AccountGetUserProfileResponseSuccess extends ResponseSuccess {
 }
 declare type AccountGetUserProfileResponse = AccountGetUserProfileResponseSuccess | ResponseError;
 
-declare const accountUpdateUserProfileTopic = "account.update-user-profile.command";
+declare const accountUpdateUserProfileKey = "account.update-user-profile.command";
 declare class AccountUpdateUserProfileRequest implements IUserProfile {
     userId: string;
     email: string;
@@ -101,4 +101,15 @@ declare class AccountRemoveDeadTokensResponseSuccess extends ResponseSuccess {
 }
 declare type AccountRemoveDeadTokensResponse = AccountRemoveDeadTokensResponseSuccess | ResponseError;
 
-export { AccountGetUserProfileRequest, AccountGetUserProfileResponse, AccountLoginRequest, AccountLoginResponse, AccountLogoutAllRequest, AccountLogoutAllResponse, AccountLogoutRequest, AccountLogoutResponse, AccountRefreshRequest, AccountRefreshResponse, AccountRegisterRequest, AccountRegisterResponse, AccountRemoveDeadTokensRequest, AccountRemoveDeadTokensResponse, AccountUpdateUserProfileRequest, AccountUpdateUserProfileResponse, ResponseError, ResponseStatuses, ResponseSuccess, UserInTokenDot, accountGetUserProfileTopic, accountLoginKey, accountLogoutAllKey, accountLogoutKey, accountRefreshKey, accountRegisterKey, accountRemoveDeadTokensKey, accountUpdateUserProfileTopic };
+declare const giftCreateGiftKey = "gift.create-gift.command";
+declare class GiftCreateGiftRequest implements ICreateGift {
+    userId: string;
+    title: string;
+    text: string;
+}
+declare class GiftCreateGiftResponseSuccess extends ResponseSuccess {
+    payload: IGift;
+}
+declare type GiftCreateGiftResponse = GiftCreateGiftResponseSuccess | ResponseError;
+
+export { AccountGetUserProfileRequest, AccountGetUserProfileResponse, AccountLoginRequest, AccountLoginResponse, AccountLogoutAllRequest, AccountLogoutAllResponse, AccountLogoutRequest, AccountLogoutResponse, AccountRefreshRequest, AccountRefreshResponse, AccountRegisterRequest, AccountRegisterResponse, AccountRemoveDeadTokensRequest, AccountRemoveDeadTokensResponse, AccountUpdateUserProfileRequest, AccountUpdateUserProfileResponse, GiftCreateGiftRequest, GiftCreateGiftResponse, ResponseError, ResponseStatuses, ResponseSuccess, UserInTokenDot, accountGetUserProfileKey, accountLoginKey, accountLogoutAllKey, accountLogoutKey, accountRefreshKey, accountRegisterKey, accountRemoveDeadTokensKey, accountUpdateUserProfileKey, giftCreateGiftKey };

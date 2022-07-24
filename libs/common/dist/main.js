@@ -1233,6 +1233,22 @@ var AccountLogoutAllRequest = class {
 __decorateClass([
   IsDefined()
 ], AccountLogoutAllRequest.prototype, "userId", 2);
+var GiftCreateGiftRequest = class {
+  userId;
+  title;
+  text;
+};
+__decorateClass([
+  IsString()
+], GiftCreateGiftRequest.prototype, "userId", 2);
+__decorateClass([
+  MaxLength(12),
+  IsString()
+], GiftCreateGiftRequest.prototype, "title", 2);
+__decorateClass([
+  MaxLength(280),
+  IsString()
+], GiftCreateGiftRequest.prototype, "text", 2);
 
 // src/utils/is-error-responce.type-guard.ts
 var isError = (res) => {

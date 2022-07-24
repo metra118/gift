@@ -8,17 +8,17 @@ export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
   async getUserProfileById(userId: string): Promise<IUserProfile> {
-    const user = await this.userRepository.findUserById(userId)
+    const user = await this.userRepository.findById(userId)
     if (!user) throw new BadRequestException('Пользователь не найден')
     const userEntity = new UserEntity(user)
     return userEntity.getUserProfile()
   }
 
   async updateUserProfile(userProfile: IUserProfile): Promise<IUserProfile> {
-    const user = await this.userRepository.findUserById(userProfile.userId)
+    const user = await this.userRepository.findById(userProfile.userId)
     if (!user) throw new BadRequestException('Пользователь не найден')
     const userEntity = new UserEntity(user).updateProfile(userProfile)
-    await this.userRepository.updateUser(userEntity)
+    await this.userRepository.update(userEntity)
     return userEntity.getUserProfile()
   }
 }

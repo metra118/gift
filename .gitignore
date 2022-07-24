@@ -3,5 +3,6 @@ node_modules
 .idea
 .vscode
 apps/**/dist
+apps/**/prisma/client
 .env
 .turbo

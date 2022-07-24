@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
-import { Session } from '@prisma/client'
+import { Session } from '../../../../prisma/client'
 import ms from 'ms'
 import { PrismaService } from '../../prisma/prisma.service'
 import { CreateSessionDto } from '../dtos/create-session.dto'

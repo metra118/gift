@@ -3,7 +3,7 @@ import { ResponseError } from '../../common/response/response-error'
 import { ResponseSuccess } from '../../common/response/response-success'
 import { IUserProfile } from '@gift/interfaces'
 
-export const accountGetUserProfileTopic = 'account.get-user-profile.query'
+export const accountGetUserProfileKey = 'account.get-user-profile.query'
 
 export class AccountGetUserProfileRequest {
   @IsString()

@@ -2,10 +2,10 @@ import { Injectable, UsePipes, ValidationPipe } from '@nestjs/common'
 import {
   AccountGetUserProfileRequest,
   AccountGetUserProfileResponse,
-  accountGetUserProfileTopic,
+  accountGetUserProfileKey,
   AccountUpdateUserProfileRequest,
   AccountUpdateUserProfileResponse,
-  accountUpdateUserProfileTopic,
+  accountUpdateUserProfileKey,
   ResponseStatuses,
 } from '@gift/contracts'
 import { RabbitPayload, RabbitRPC } from '@golevelup/nestjs-rabbitmq'
@@ -18,8 +18,8 @@ export class UserController {
 
   @UsePipes(ValidationPipe)
   @RabbitRPC({
-    routingKey: accountGetUserProfileTopic,
-    queue: accountGetUserProfileTopic,
+    routingKey: accountGetUserProfileKey,
+    queue: accountGetUserProfileKey,
     exchange: process.env.AMQP_EXCHANGE,
     errorHandler: replyErrorHandler,
   })
@@ -35,8 +35,8 @@ export class UserController {
 
   @UsePipes(ValidationPipe)
   @RabbitRPC({
-    routingKey: accountUpdateUserProfileTopic,
-    queue: accountUpdateUserProfileTopic,
+    routingKey: accountUpdateUserProfileKey,
+    queue: accountUpdateUserProfileKey,
     exchange: process.env.AMQP_EXCHANGE,
     errorHandler: replyErrorHandler,
   })

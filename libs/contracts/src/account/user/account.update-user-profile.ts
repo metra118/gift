@@ -3,8 +3,7 @@ import { ResponseError } from '../../common/response/response-error'
 import { ResponseSuccess } from '../../common/response/response-success'
 import { IUserProfile } from '@gift/interfaces'
 
-export const accountUpdateUserProfileTopic =
-  'account.update-user-profile.command'
+export const accountUpdateUserProfileKey = 'account.update-user-profile.command'
 
 export class AccountUpdateUserProfileRequest implements IUserProfile {
   @IsString()

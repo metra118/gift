@@ -37,6 +37,15 @@ declare type ILogout = IsOk;
 
 declare type IUserProfile = Omit<IUser, 'passwordHash'>;
 
+interface IGift {
+    giftId: string;
+    userId: string;
+    title: string;
+    text: string;
+}
+
+declare type ICreateGift = Omit<IGift, 'giftId'>;
+
 declare type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<T>;
 
-export { ICreateSession, ICreateUser, ILogout, ISession, ITokens, IUser, IUserInToken, IUserProfile, IsOk, PartialBy };
+export { ICreateGift, ICreateSession, ICreateUser, IGift, ILogout, ISession, ITokens, IUser, IUserInToken, IUserProfile, IsOk, PartialBy };

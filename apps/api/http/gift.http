@@ -1,0 +1,25 @@
+### createGift
+POST {{host}}/gifts
+Content-Type: application/json
+Cookie: accessToken={{accessToken}}
+
+{
+  "text": "34",
+  "title": "123",
+  "userId": "{{userId}}"
+}
+
+### updateUserProfile
+PATCH {{host}}/user
+Content-Type: application/json
+Cookie: accessToken={{accessToken}}
+
+{
+  "userId": "{{userId}}",
+  "email": "{{email}}",
+  "isActive": true,
+  "firstName": "art",
+  "lastName": "art",
+  "nickname": "123",
+  "bio": "awd"
+}

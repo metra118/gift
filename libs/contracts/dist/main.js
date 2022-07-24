@@ -37,18 +37,20 @@ __export(main_exports, {
   AccountRegisterRequest: () => AccountRegisterRequest,
   AccountRemoveDeadTokensRequest: () => AccountRemoveDeadTokensRequest,
   AccountUpdateUserProfileRequest: () => AccountUpdateUserProfileRequest,
+  GiftCreateGiftRequest: () => GiftCreateGiftRequest,
   ResponseError: () => ResponseError,
   ResponseStatuses: () => ResponseStatuses,
   ResponseSuccess: () => ResponseSuccess,
   UserInTokenDot: () => UserInTokenDot,
-  accountGetUserProfileTopic: () => accountGetUserProfileTopic,
+  accountGetUserProfileKey: () => accountGetUserProfileKey,
   accountLoginKey: () => accountLoginKey,
   accountLogoutAllKey: () => accountLogoutAllKey,
   accountLogoutKey: () => accountLogoutKey,
   accountRefreshKey: () => accountRefreshKey,
   accountRegisterKey: () => accountRegisterKey,
   accountRemoveDeadTokensKey: () => accountRemoveDeadTokensKey,
-  accountUpdateUserProfileTopic: () => accountUpdateUserProfileTopic
+  accountUpdateUserProfileKey: () => accountUpdateUserProfileKey,
+  giftCreateGiftKey: () => giftCreateGiftKey
 });
 module.exports = __toCommonJS(main_exports);
 
@@ -68,7 +70,7 @@ var ResponseSuccess = class {
 };
 
 // src/account/user/account.get-user-profile.ts
-var accountGetUserProfileTopic = "account.get-user-profile.query";
+var accountGetUserProfileKey = "account.get-user-profile.query";
 var AccountGetUserProfileRequest = class {
   userId;
 };
@@ -78,7 +80,7 @@ __decorateClass([
 
 // src/account/user/account.update-user-profile.ts
 var import_class_validator2 = require("class-validator");
-var accountUpdateUserProfileTopic = "account.update-user-profile.command";
+var accountUpdateUserProfileKey = "account.update-user-profile.command";
 var AccountUpdateUserProfileRequest = class {
   userId;
   email;
@@ -193,6 +195,26 @@ var accountRemoveDeadTokensKey = "account.remove-dead-tokens.command";
 var AccountRemoveDeadTokensRequest = class {
 };
 
+// src/gift/gift.create-gift.ts
+var import_class_validator8 = require("class-validator");
+var giftCreateGiftKey = "gift.create-gift.command";
+var GiftCreateGiftRequest = class {
+  userId;
+  title;
+  text;
+};
+__decorateClass([
+  (0, import_class_validator8.IsString)()
+], GiftCreateGiftRequest.prototype, "userId", 2);
+__decorateClass([
+  (0, import_class_validator8.MaxLength)(12),
+  (0, import_class_validator8.IsString)()
+], GiftCreateGiftRequest.prototype, "title", 2);
+__decorateClass([
+  (0, import_class_validator8.MaxLength)(280),
+  (0, import_class_validator8.IsString)()
+], GiftCreateGiftRequest.prototype, "text", 2);
+
 // src/common/response/response-error.ts
 var ResponseError = class {
   status = "error" /* error */;
@@ -208,16 +230,18 @@ var ResponseError = class {
   AccountRegisterRequest,
   AccountRemoveDeadTokensRequest,
   AccountUpdateUserProfileRequest,
+  GiftCreateGiftRequest,
   ResponseError,
   ResponseStatuses,
   ResponseSuccess,
   UserInTokenDot,
-  accountGetUserProfileTopic,
+  accountGetUserProfileKey,
   accountLoginKey,
   accountLogoutAllKey,
   accountLogoutKey,
   accountRefreshKey,
   accountRegisterKey,
   accountRemoveDeadTokensKey,
-  accountUpdateUserProfileTopic
+  accountUpdateUserProfileKey,
+  giftCreateGiftKey
 });

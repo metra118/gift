@@ -26,7 +26,7 @@ var ResponseSuccess = class {
 };
 
 // src/account/user/account.get-user-profile.ts
-var accountGetUserProfileTopic = "account.get-user-profile.query";
+var accountGetUserProfileKey = "account.get-user-profile.query";
 var AccountGetUserProfileRequest = class {
   userId;
 };
@@ -36,7 +36,7 @@ __decorateClass([
 
 // src/account/user/account.update-user-profile.ts
 import { IsBoolean, IsOptional, IsString as IsString2 } from "class-validator";
-var accountUpdateUserProfileTopic = "account.update-user-profile.command";
+var accountUpdateUserProfileKey = "account.update-user-profile.command";
 var AccountUpdateUserProfileRequest = class {
   userId;
   email;
@@ -151,6 +151,26 @@ var accountRemoveDeadTokensKey = "account.remove-dead-tokens.command";
 var AccountRemoveDeadTokensRequest = class {
 };
 
+// src/gift/gift.create-gift.ts
+import { IsString as IsString5, MaxLength as MaxLength2 } from "class-validator";
+var giftCreateGiftKey = "gift.create-gift.command";
+var GiftCreateGiftRequest = class {
+  userId;
+  title;
+  text;
+};
+__decorateClass([
+  IsString5()
+], GiftCreateGiftRequest.prototype, "userId", 2);
+__decorateClass([
+  MaxLength2(12),
+  IsString5()
+], GiftCreateGiftRequest.prototype, "title", 2);
+__decorateClass([
+  MaxLength2(280),
+  IsString5()
+], GiftCreateGiftRequest.prototype, "text", 2);
+
 // src/common/response/response-error.ts
 var ResponseError = class {
   status = "error" /* error */;
@@ -165,16 +185,18 @@ export {
   AccountRegisterRequest,
   AccountRemoveDeadTokensRequest,
   AccountUpdateUserProfileRequest,
+  GiftCreateGiftRequest,
   ResponseError,
   ResponseStatuses,
   ResponseSuccess,
   UserInTokenDot,
-  accountGetUserProfileTopic,
+  accountGetUserProfileKey,
   accountLoginKey,
   accountLogoutAllKey,
   accountLogoutKey,
   accountRefreshKey,
   accountRegisterKey,
   accountRemoveDeadTokensKey,
-  accountUpdateUserProfileTopic
+  accountUpdateUserProfileKey,
+  giftCreateGiftKey
 };

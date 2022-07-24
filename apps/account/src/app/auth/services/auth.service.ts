@@ -41,9 +41,7 @@ export class AuthService {
     if (!tokenFromDb) {
       throw new UnauthorizedException()
     }
-    const userCandidate = await this.userRepository.findUserById(
-      data.user.userId,
-    )
+    const userCandidate = await this.userRepository.findById(data.user.userId)
     if (!userCandidate) {
       throw new BadRequestException()
     }
@@ -83,7 +81,7 @@ export class AuthService {
   }
 
   async login(data: AccountLoginRequest): Promise<ITokens> {
-    const userCandidate = await this.userRepository.findUserByEmail(data.email)
+    const userCandidate = await this.userRepository.findByEmail(data.email)
     if (!userCandidate) {
       throw new BadRequestException('Неверный логин или пароль')
     }
@@ -110,11 +108,11 @@ export class AuthService {
   }
 
   async register(data: AccountRegisterRequest): Promise<ITokens> {
-    const userCandidate = await this.userRepository.findUserByEmail(data.email)
+    const userCandidate = await this.userRepository.findByEmail(data.email)
     if (userCandidate) {
       throw new BadRequestException('Такой пользователь уже зарегистрирован')
     }
-    const newUser = await this.userRepository.createUser(
+    const newUser = await this.userRepository.create(
       new CreateUserDto({
         ...data,
         passwordHash: await this.passwordService.hash(data.password),
