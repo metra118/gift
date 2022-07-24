@@ -9,17 +9,14 @@ Authorization: Bearer {{accessToken}}
   "userId": "{{userId}}"
 }
 
-### updateUserProfile
-PATCH {{host}}/user
+### updateGift
+PATCH {{host}}/gifts
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
 {
-  "userId": "{{userId}}",
-  "email": "{{email}}",
-  "isActive": true,
-  "firstName": "art",
-  "lastName": "art",
-  "nickname": "123",
-  "bio": "awd"
+  "giftId": "c6073c26-6871-4221-8a20-6cd7d297910f",
+  "text": "123",
+  "title": "aw123d",
+  "userId": "{{userId}}"
 }

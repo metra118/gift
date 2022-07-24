@@ -46,6 +46,16 @@ interface IGift {
 
 declare type ICreateGift = Omit<IGift, 'giftId'>;
 
+interface ISelectGiftBy {
+    giftId?: string;
+    userId?: string;
+}
+
+interface IPagindation {
+    skip?: number;
+    take?: number;
+}
+
 declare type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<T>;
 
-export { ICreateGift, ICreateSession, ICreateUser, IGift, ILogout, ISession, ITokens, IUser, IUserInToken, IUserProfile, IsOk, PartialBy };
+export { ICreateGift, ICreateSession, ICreateUser, IGift, ILogout, IPagindation, ISelectGiftBy, ISession, ITokens, IUser, IUserInToken, IUserProfile, IsOk, PartialBy };

@@ -1,5 +1,6 @@
-import { IUser, IUserInToken, IUserProfile } from '@gift/interfaces'
+import { IUser, IUserInToken, IUserProfile, PartialBy } from '@gift/interfaces'
 import { UnauthorizedException } from '@nestjs/common'
+import { cloneDeep } from 'lodash'
 
 export class UserEntity implements IUser {
   userId: string
@@ -22,8 +23,10 @@ export class UserEntity implements IUser {
     this.bio = user.bio
   }
 
-  updateProfile(userProfile: IUserProfile): UserEntity {
-    return new UserEntity({ ...this, ...userProfile })
+  updateProfile(userProfile: PartialBy<IUserProfile, 'userId'>): UserEntity {
+    const cpUserProfile = cloneDeep(userProfile)
+    delete cpUserProfile.userId
+    return new UserEntity({ ...this, ...cpUserProfile })
   }
 
   getUserProfile(): IUserProfile {

@@ -3,6 +3,7 @@ import {
   Controller,
   ForbiddenException,
   HttpException,
+  Patch,
   Post,
   UseGuards,
   ValidationPipe,
@@ -13,6 +14,9 @@ import {
   giftCreateGiftKey,
   GiftCreateGiftRequest,
   GiftCreateGiftResponse,
+  giftUpdateGiftKey,
+  GiftUpdateGiftRequest,
+  GiftUpdateGiftResponse,
 } from '@gift/contracts'
 import { isError } from '@gift/common'
 import { JwtAccessGuard } from '../guards/jwt-access.guard'
@@ -28,7 +32,7 @@ export class GiftController {
 
   @UseGuards(JwtAccessGuard)
   @Post()
-  async createGift(
+  async create(
     @Body(ValidationPipe) payload: GiftCreateGiftRequest,
     @GetUser() user: IUserInToken,
   ) {
@@ -36,6 +40,26 @@ export class GiftController {
     const res = await this.amqpConnection.request<GiftCreateGiftResponse>({
       exchange: this.configService.getOrThrow('AMQP_EXCHANGE'),
       routingKey: giftCreateGiftKey,
+      payload,
+    })
+
+    if (isError(res)) {
+      throw new HttpException(res.error, res.error.statusCode)
+    }
+
+    return res.payload
+  }
+
+  @UseGuards(JwtAccessGuard)
+  @Patch()
+  async update(
+    @Body(ValidationPipe) payload: GiftUpdateGiftRequest,
+    @GetUser() user: IUserInToken,
+  ) {
+    if (payload.userId !== user.userId) throw new ForbiddenException()
+    const res = await this.amqpConnection.request<GiftUpdateGiftResponse>({
+      exchange: this.configService.getOrThrow('AMQP_EXCHANGE'),
+      routingKey: giftUpdateGiftKey,
       payload,
     })
 

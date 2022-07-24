@@ -171,6 +171,30 @@ __decorateClass([
   IsString5()
 ], GiftCreateGiftRequest.prototype, "text", 2);
 
+// src/gift/gift.update-gift.ts
+import { IsString as IsString6, IsUUID, MaxLength as MaxLength3 } from "class-validator";
+var giftUpdateGiftKey = "gift.update-gift.command";
+var GiftUpdateGiftRequest = class {
+  giftId;
+  userId;
+  title;
+  text;
+};
+__decorateClass([
+  IsUUID()
+], GiftUpdateGiftRequest.prototype, "giftId", 2);
+__decorateClass([
+  IsString6()
+], GiftUpdateGiftRequest.prototype, "userId", 2);
+__decorateClass([
+  MaxLength3(12),
+  IsString6()
+], GiftUpdateGiftRequest.prototype, "title", 2);
+__decorateClass([
+  MaxLength3(280),
+  IsString6()
+], GiftUpdateGiftRequest.prototype, "text", 2);
+
 // src/common/response/response-error.ts
 var ResponseError = class {
   status = "error" /* error */;
@@ -186,6 +210,7 @@ export {
   AccountRemoveDeadTokensRequest,
   AccountUpdateUserProfileRequest,
   GiftCreateGiftRequest,
+  GiftUpdateGiftRequest,
   ResponseError,
   ResponseStatuses,
   ResponseSuccess,
@@ -198,5 +223,6 @@ export {
   accountRegisterKey,
   accountRemoveDeadTokensKey,
   accountUpdateUserProfileKey,
-  giftCreateGiftKey
+  giftCreateGiftKey,
+  giftUpdateGiftKey
 };

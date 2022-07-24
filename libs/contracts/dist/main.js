@@ -38,6 +38,7 @@ __export(main_exports, {
   AccountRemoveDeadTokensRequest: () => AccountRemoveDeadTokensRequest,
   AccountUpdateUserProfileRequest: () => AccountUpdateUserProfileRequest,
   GiftCreateGiftRequest: () => GiftCreateGiftRequest,
+  GiftUpdateGiftRequest: () => GiftUpdateGiftRequest,
   ResponseError: () => ResponseError,
   ResponseStatuses: () => ResponseStatuses,
   ResponseSuccess: () => ResponseSuccess,
@@ -50,7 +51,8 @@ __export(main_exports, {
   accountRegisterKey: () => accountRegisterKey,
   accountRemoveDeadTokensKey: () => accountRemoveDeadTokensKey,
   accountUpdateUserProfileKey: () => accountUpdateUserProfileKey,
-  giftCreateGiftKey: () => giftCreateGiftKey
+  giftCreateGiftKey: () => giftCreateGiftKey,
+  giftUpdateGiftKey: () => giftUpdateGiftKey
 });
 module.exports = __toCommonJS(main_exports);
 
@@ -215,6 +217,30 @@ __decorateClass([
   (0, import_class_validator8.IsString)()
 ], GiftCreateGiftRequest.prototype, "text", 2);
 
+// src/gift/gift.update-gift.ts
+var import_class_validator9 = require("class-validator");
+var giftUpdateGiftKey = "gift.update-gift.command";
+var GiftUpdateGiftRequest = class {
+  giftId;
+  userId;
+  title;
+  text;
+};
+__decorateClass([
+  (0, import_class_validator9.IsUUID)()
+], GiftUpdateGiftRequest.prototype, "giftId", 2);
+__decorateClass([
+  (0, import_class_validator9.IsString)()
+], GiftUpdateGiftRequest.prototype, "userId", 2);
+__decorateClass([
+  (0, import_class_validator9.MaxLength)(12),
+  (0, import_class_validator9.IsString)()
+], GiftUpdateGiftRequest.prototype, "title", 2);
+__decorateClass([
+  (0, import_class_validator9.MaxLength)(280),
+  (0, import_class_validator9.IsString)()
+], GiftUpdateGiftRequest.prototype, "text", 2);
+
 // src/common/response/response-error.ts
 var ResponseError = class {
   status = "error" /* error */;
@@ -231,6 +257,7 @@ var ResponseError = class {
   AccountRemoveDeadTokensRequest,
   AccountUpdateUserProfileRequest,
   GiftCreateGiftRequest,
+  GiftUpdateGiftRequest,
   ResponseError,
   ResponseStatuses,
   ResponseSuccess,
@@ -243,5 +270,6 @@ var ResponseError = class {
   accountRegisterKey,
   accountRemoveDeadTokensKey,
   accountUpdateUserProfileKey,
-  giftCreateGiftKey
+  giftCreateGiftKey,
+  giftUpdateGiftKey
 });

@@ -112,4 +112,16 @@ declare class GiftCreateGiftResponseSuccess extends ResponseSuccess {
 }
 declare type GiftCreateGiftResponse = GiftCreateGiftResponseSuccess | ResponseError;
 
-export { AccountGetUserProfileRequest, AccountGetUserProfileResponse, AccountLoginRequest, AccountLoginResponse, AccountLogoutAllRequest, AccountLogoutAllResponse, AccountLogoutRequest, AccountLogoutResponse, AccountRefreshRequest, AccountRefreshResponse, AccountRegisterRequest, AccountRegisterResponse, AccountRemoveDeadTokensRequest, AccountRemoveDeadTokensResponse, AccountUpdateUserProfileRequest, AccountUpdateUserProfileResponse, GiftCreateGiftRequest, GiftCreateGiftResponse, ResponseError, ResponseStatuses, ResponseSuccess, UserInTokenDot, accountGetUserProfileKey, accountLoginKey, accountLogoutAllKey, accountLogoutKey, accountRefreshKey, accountRegisterKey, accountRemoveDeadTokensKey, accountUpdateUserProfileKey, giftCreateGiftKey };
+declare const giftUpdateGiftKey = "gift.update-gift.command";
+declare class GiftUpdateGiftRequest implements IGift {
+    giftId: string;
+    userId: string;
+    title: string;
+    text: string;
+}
+declare class GiftUpdateGiftResponseSuccess extends ResponseSuccess {
+    payload: IGift;
+}
+declare type GiftUpdateGiftResponse = GiftUpdateGiftResponseSuccess | ResponseError;
+
+export { AccountGetUserProfileRequest, AccountGetUserProfileResponse, AccountLoginRequest, AccountLoginResponse, AccountLogoutAllRequest, AccountLogoutAllResponse, AccountLogoutRequest, AccountLogoutResponse, AccountRefreshRequest, AccountRefreshResponse, AccountRegisterRequest, AccountRegisterResponse, AccountRemoveDeadTokensRequest, AccountRemoveDeadTokensResponse, AccountUpdateUserProfileRequest, AccountUpdateUserProfileResponse, GiftCreateGiftRequest, GiftCreateGiftResponse, GiftUpdateGiftRequest, GiftUpdateGiftResponse, ResponseError, ResponseStatuses, ResponseSuccess, UserInTokenDot, accountGetUserProfileKey, accountLoginKey, accountLogoutAllKey, accountLogoutKey, accountRefreshKey, accountRegisterKey, accountRemoveDeadTokensKey, accountUpdateUserProfileKey, giftCreateGiftKey, giftUpdateGiftKey };

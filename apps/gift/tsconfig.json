@@ -2,6 +2,7 @@
   "extends": "@gift/tsconfig/share/base.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "baseUrl": "./src"
+    "baseUrl": "./src",
+    "resolveJsonModule": true
   }
 }

@@ -9,6 +9,7 @@ export * from './account/auth/account.logout-all'
 export * from './account/auth/account.remove-dead-tokens'
 
 export * from './gift/gift.create-gift'
+export * from './gift/gift.update-gift'
 
 export * from './common/response/response-success'
 export * from './common/response/response-error'

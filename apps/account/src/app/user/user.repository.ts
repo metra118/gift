@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../prisma/prisma.service'
 import { User } from '../../../prisma/client'
-import { UserEntity } from './user.entity'
-import { ICreateUser } from '@gift/interfaces'
+import { ICreateUser, IUser } from '@gift/interfaces'
 
 @Injectable()
 export class UserRepository {
@@ -14,7 +13,7 @@ export class UserRepository {
     })
   }
 
-  async update({ userId, ...rest }: UserEntity) {
+  async update({ userId, ...rest }: IUser) {
     return this.prismaService.user.update({ where: { userId }, data: rest })
   }
 

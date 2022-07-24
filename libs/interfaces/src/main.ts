@@ -9,7 +9,9 @@ export * from './account/user-profile.interface'
 
 export * from './gift/gift.interface'
 export * from './gift/create-gift.interface'
+export * from './gift/select-gift-by.interface'
 
 export * from './common/is-ok'
+export * from './common/pagination'
 
 export * from './types/PartialBy'
