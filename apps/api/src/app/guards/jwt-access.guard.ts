@@ -16,12 +16,15 @@ export class JwtAccessGuard implements CanActivate {
 
   async canActivate(ctx: ExecutionContext): Promise<boolean> {
     const request = ctx.switchToHttp().getRequest()
-    if (!request.cookies?.accessToken) throw new UnauthorizedException()
+    if (!request.headers.authorization) throw new UnauthorizedException()
     let user
     try {
-      user = await this.jwtService.verifyAsync(request.cookies?.accessToken, {
-        secret: this.configService.getOrThrow('JWT_ACCESS_SECRET'),
-      })
+      user = await this.jwtService.verifyAsync(
+        request.headers.authorization.split(' ').at(1),
+        {
+          secret: this.configService.getOrThrow('JWT_ACCESS_SECRET'),
+        },
+      )
     } catch (e) {
       throw new UnauthorizedException()
     }

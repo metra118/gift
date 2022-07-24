@@ -1,11 +1,11 @@
 ### getUserProfile
 GET {{host}}/user
-Cookie: accessToken={{accessToken}}
+Authorization: Bearer {{accessToken}}
 
 ### updateUserProfile
 PATCH {{host}}/user
 Content-Type: application/json
-Cookie: accessToken={{accessToken}}
+Authorization: Bearer {{accessToken}}
 
 {
   "userId": "{{userId}}",

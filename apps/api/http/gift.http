@@ -1,7 +1,7 @@
 ### createGift
 POST {{host}}/gifts
 Content-Type: application/json
-Cookie: accessToken={{accessToken}}
+Authorization: Bearer {{accessToken}}
 
 {
   "text": "34",
@@ -12,7 +12,7 @@ Cookie: accessToken={{accessToken}}
 ### updateUserProfile
 PATCH {{host}}/user
 Content-Type: application/json
-Cookie: accessToken={{accessToken}}
+Authorization: Bearer {{accessToken}}
 
 {
   "userId": "{{userId}}",
