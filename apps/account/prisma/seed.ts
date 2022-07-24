@@ -1,4 +1,5 @@
 import { PrismaClient, Prisma } from './client'
+// @ts-ignore
 import { dev } from '../../api/http/http-client.env.json'
 
 const prisma = new PrismaClient()
